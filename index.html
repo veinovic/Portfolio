@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Nikola Veinović Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&amp;display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <style>
+    @media (max-width: 1117px) and (min-width: 769px) {
+  .slider-arrow.left {
+    left: -3px !important;
+  }
+  .slider-arrow.right {
+    right: -3px !important;
+  }
+}
+    html, button {
+  -webkit-tap-highlight-color: transparent; 
+  outline: none;                             
+}
+    .portfolio-slide iframe {
+      width: 100%;
+      max-width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+      display: block;
+      margin: 0 auto;
+      vertical-align: top;
+      display: block;
+      margin: 0 auto;
+      padding: 0;
+      vertical-align: top;
+      line-height: 0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      line-height: 1.6;
+      color: #222;
+    }
+
+    header {
+      background: #424242;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid #eee;
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+    }
+
+    section {
+      padding: 4rem 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    @media (min-width: 769px) {
+      section {
+        padding: 4rem 2rem;
+      }
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hero img {
+      max-width: 300px;
+      width: 100%;
+      border-radius: 12px;
+    }
+
+    .hero>div {
+      flex: 1;
+    }
+
+    .cv-buttons {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      gap: 10px;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .cv-btn {
+      padding: 0.75rem 1.5rem;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      z-index: 100;
+    }
+
+    .dropdown-content a {
+      display: block;
+      color: #424242;
+      padding: 8px 12px;
+      text-decoration: none;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #efefef;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .social-link {
+      text-decoration: none;
+    }
+
+    .social-link .fa-instagram {
+      font-size: 24px;
+      color: #424242;
+      margin-top: 5px;
+    }
+
+    .hero-description {
+      margin-top: 1rem;
+      font-style: italic;
+      color: #555;
+    }
+
+    .portfolio-toggle {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+      gap: 1rem;
+      color: #333;
+    }
+
+    .portfolio-toggle button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #ccc;
+      color: #333;
+    }
+
+    .portfolio-toggle button.active {
+      background: #111;
+      color: #fff;
+    }
+
+    .portfolio-slider {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      display: none;
+    }
+
+    .portfolio-slider.active {
+      display: block;
+    }
+
+    .slider-wrapper {
+      display: flex;
+      transition: transform 0.5s ease;
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .portfolio-slide {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 100%;
+      padding: 2rem 1rem;
+      box-sizing: border-box;
+      gap: 2rem;
+    }
+
+    .portfolio-slide iframe {
+      width: 100%;
+      max-width: 560px;
+      aspect-ratio: 16/9;
+      border: none;
+      flex: 1;
+    }
+
+    .portfolio-text {
+      flex: 1;
+      max-width: 600px;
+      text-align: left;
+      padding: 1rem;
+    }
+
+    /* Responsive za mobilne uređaje */
+    @media (max-width: 768px) {
+      .portfolio-slide {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .portfolio-text {
+        text-align: center;
+        padding: 1rem 0;
+      }
+    }
+
+    .portfolio-slide img {
+      width: 300px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .portfolio-text {
+      width: 100%;
+      max-width: 600px;
+      padding: 1rem;
+      text-align: center;
+      flex: 1;
+    }
+
+    .slider-arrow {
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      font-size: 2rem;
+      z-index: 10;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: none;
+      border: none;
+      color: #424242;
+      cursor: pointer;
+      z-index: 1;
+      opacity: 0.5;
+    }
+
+    .slider-arrow.left {
+      left: 10px;
+    }
+
+    .slider-arrow.right {
+      right: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form input,
+    form textarea {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    form button {
+      background: #111;
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      .portfolio-text {
+        width: 100%;
+        max-width: 600px;
+        padding: 1rem;
+        text-align: center;
+        padding: 0 1rem;
+      }
+
+      .slider-arrow {
+        background: rgba(0, 0, 0, 0.4);
+        color: white;
+        font-size: 2rem;
+        z-index: 10;
+        font-size: 1.5rem;
+        top: 45%;
+      }
+
+      .portfolio-text {
+        width: 100%;
+        max-width: 600px;
+        padding: 1rem;
+        text-align: center;
+        text-align: center;
+      }
+
+      nav {
+        display: none;
+      }
+
+      header {
+        flex-direction: column;
+      }
+
+      .portfolio-slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2rem 1rem;
+        box-sizing: border-box;
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .portfolio-slider-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      gap: 10px;
+      /* spacing between arrows and slider */
+    }
+
+    .project-name {
+      margin-bottom: 10px;
+      margin-top: 16px;
+      font-size: 1.25rem;
+    }
+
+    .portfolio-slide video {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      object-fit: cover;
+    }
+
+
+
+    .read-toggle {
+      display: inline-block;
+      background-color: #111;
+      color: #fff;
+      padding: 6px 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .read-toggle:hover {
+      background-color: #333;
+    }
+
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero img {
+        margin: 0 auto;
+      }
+    }
+
+
+    @media (max-width: 768px) {
+      .cv-buttons {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+    }
+
+
+    .skill-box {
+      border: 2px solid black;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      border-radius: 5px;
+      background-color: #f7f7f7;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .left-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .portfolio-slide {
+        flex-direction: column;
+      }
+
+      .portfolio-text {
+        padding: 1rem 0;
+      }
+    }
+
+    /* Sexy gradient buttons */
+    .read-toggle {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      box-shadow: 0 4px 12px rgba(255, 65, 108, 0.4);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .read-toggle:hover {
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 75, 43, 0.5);
+    }
+
+    /* Align title with top of video */
+    .portfolio-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+      text-align: left;
+      height: 100%;
+    }
+
+    .project-name {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      align-self: flex-start;
+    }
+
+    /* Match header color for main button */
+    .read-toggle {
+      background: linear-gradient(135deg, #424242, #2e2e2e);
+      box-shadow: 0 4px 12px rgba(66, 66, 66, 0.4);
+    }
+
+    .read-toggle:hover {
+      background: linear-gradient(135deg, #2e2e2e, #424242);
+      box-shadow: 0 6px 20px rgba(66, 66, 66, 0.5);
+    }
+
+    /* Sexy skill-box buttons */
+    .skill-box {
+      border: none;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #424242, #2e2e2e);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(66, 66, 66, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .skill-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(66, 66, 66, 0.6);
+    }
+
+    /* Designer frame around iframe */
+    .left-content iframe {
+      border: 3px solid #424242;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Ensure text starts directly below the title and fills height */
+    .portfolio-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 100%;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    /* Optional tweak for smoother layout */
+    .portfolio-description {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Let text expand and push button to bottom */
+    .portfolio-description {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .portfolio-description p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* Ensure portfolio-slide fills consistent height */
+    .portfolio-slide {
+      align-items: stretch;
+    }
+
+    /* Make text block use available space and button stay at bottom */
+    .portfolio-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .portfolio-description {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .portfolio-description p {
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* Enforce minimum height for slide and make text area stretch */
+    .portfolio-slide {
+      min-height: 360px;
+      align-items: stretch;
+    }
+
+    .portfolio-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .portfolio-description {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .portfolio-description p {
+      flex-grow: 1;
+      margin: 0;
+    }
+
+    /* Remove top padding from text section and align title to top */
+    .portfolio-text {
+      padding-top: 16px !important;
+      justify-content: space-between;
+    }
+
+    .project-name {
+      margin-top: 0;
+      padding-top: 0;
+      line-height: 1.2;
+    }
+
+    /* Scrollable blur mask overlay */
+    .portfolio-description {
+      position: relative;
+      overflow: hidden;
+      max-height: 300px;
+    }
+
+    .portfolio-description p {
+      overflow-y: auto;
+      padding-right: 1rem;
+      max-height: 100%;
+    }
+
+    .portfolio-description::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, white);
+      pointer-events: none;
+    }
+
+    /* Clean scroll-only version without blur overlay */
+    .portfolio-description::after {
+      display: none;
+    }
+
+    .portfolio-description {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .portfolio-description p {
+      overflow-y: auto;
+      max-height: 100%;
+      padding-right: 1rem;
+    }
+
+    .portfolio-text {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .portfolio-description {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 1rem;
+    }
+
+    .portfolio-description p {
+      height: 100%;
+      overflow-y: auto;
+      margin: 0;
+      padding-right: 0.5rem;
+    }
+
+    .portfolio-slide {
+      min-height: 400px;
+      height: auto;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
+
+    .portfolio-text {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .portfolio-description {
+      flex-grow: 1;
+      height: 100%;
+      overflow-y: auto;
+      padding-right: 1rem;
+    }
+
+    .portfolio-description p {
+      height: 100%;
+      overflow-y: auto;
+      margin: 0;
+      padding-right: 0.5rem;
+    }
+
+    body.dark-mode nav a {
+      color: #fff;
+    }
+
+    body.dark-mode #about h2,
+    body.dark-mode #portfolio h2,
+    body.dark-mode #contact h2 {
+      color: #fff !important;
+    }
+     body.dark-mode .hero-description{
+      color:#fff;
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+
+
+    .responsive-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      border: none;
+      object-fit: contain;
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .responsive-video {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
+        object-fit: contain !important;
+      }
+    }
+  
+.header-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .header-right {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
+
+</style>
+  <script>
+    const slidePositions = {
+      'game-slider': 0,
+      'modeling-slider': 0
+    };
+
+    function moveSlide(sliderId, direction) {
+      const slider = document.querySelector(`#${sliderId} .slider-wrapper`);
+      const slides = slider.querySelectorAll('.portfolio-slide');
+      const maxIndex = slides.length - 1;
+      slidePositions[sliderId] += direction;
+
+      if (slidePositions[sliderId] < 0) slidePositions[sliderId] = 0;
+      if (slidePositions[sliderId] > maxIndex) slidePositions[sliderId] = maxIndex;
+
+      const slideWidth = slides[0].offsetWidth;
+      slider.style.transform = `translateX(-${slidePositions[sliderId] * slideWidth}px)`;
+    }
+    window.switchPortfolio = function (type) {
+    // 1) Hide all sliders and reset
+    document.querySelectorAll('.portfolio-slider').forEach(slider => {
+      slider.classList.remove('active');
+      const wrapper = slider.querySelector('.slider-wrapper');
+      if (wrapper) wrapper.style.transform = 'translateX(0)';
+    });
+
+    // 2) Remove active sa svih tastera
+    document.querySelectorAll('.portfolio-toggle button').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    // 3) Activate izabrani slider i dugme
+    document.getElementById(`${type}-slider`).classList.add('active');
+    document.getElementById(`${type}-slider-btn`).classList.add('active');
+
+    // 4) Reset pozicije (ako koristiš)
+    slidePositions[`${type}-slider`] = 0;
+
+    // 5) Prikaz/sakrivanje strelica
+    const arrows = document.querySelectorAll('.slider-arrow');
+    if (type === 'game') {
+      arrows.forEach(el => el.style.display = 'block');
+    } else {
+      arrows.forEach(el => el.style.display = 'none');
+    }
+  };
+
+  // inicijalno
+  document.addEventListener('DOMContentLoaded', () => {
+    switchPortfolio('game');
+  });
+  </script>
+  <style>
+    #portfolio h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      margin-top: 10px;
+      background: #424242;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+  </style>
+  <style>
+    #about h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      margin-top: 10px;
+      background: #424242;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+    }
+
+    #about p {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: #333;
+      background: #f9f9f9;
+      padding: 1.5rem 2rem;
+      border-left: 5px solid #424242;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+  </style>
+  <style>
+    #contact h2 {
+      position: relative;
+    }
+
+    #contact h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 4px;
+      margin-top: 10px;
+      background: #424242;
+      border-radius: 2px;
+      position: absolute;
+      left: 0;
+      top: 100%;
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+  </style>
+  <style>
+    /* Smooth transitions */
+    input,
+    textarea,
+    button {
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* On focus effects */
+    input:focus,
+    textarea:focus {
+      border-color: #424242;
+      outline: none;
+      box-shadow: 0 0 8px rgba(66, 66, 66, 0.2);
+    }
+
+    /* Button hover */
+    form button:hover {
+      background: #333;
+      transform: scale(1.02);
+    }
+
+    /* Icon placeholders using background images */
+    input[name="name"] {
+      background-image: url('https://img.icons8.com/ios-filled/16/424242/user.png');
+    }
+
+    input[name="email"] {
+      background-image: url('https://img.icons8.com/ios-filled/16/424242/new-post.png');
+    }
+
+    textarea[name="message"] {
+      background-image: url('https://img.icons8.com/ios-filled/16/424242/edit.png');
+    }
+
+    input[name="name"],
+    input[name="email"],
+    textarea[name="message"] {
+      background-repeat: no-repeat;
+      background-position: 10px center;
+      background-size: 16px 16px;
+      padding-left: 35px;
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+  </style>
+  <style>
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Fade-in animations for sections */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform;
+    }
+
+    .fade-in-section.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+  </style>
+  <script>
+    // IntersectionObserver to trigger fade-in animation on scroll
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in-section').forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
+  <style>
+    body.dark-mode {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    body.dark-mode header {
+      background-color: #1f1f1f;
+      border-bottom: 1px solid #333;
+    }
+
+    body.dark-mode nav a {
+      color: #ddd;
+    }
+
+    body.dark-mode .cv-btn,
+    body.dark-mode .read-toggle,
+    body.dark-mode form button {
+      background: #333;
+      color: #fff;
+    }
+
+    body.dark-mode .read-toggle:hover {
+      background: #444;
+    }
+
+    body.dark-mode .portfolio-text,
+    body.dark-mode #about p,
+    body.dark-mode #contact div {
+      background-color: #1e1e1e !important;
+      color: #ddd;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea {
+      background-color: #2b2b2b;
+      color: #eee;
+      border: 1px solid #444;
+    }
+
+    body.dark-mode input::placeholder,
+    body.dark-mode textarea::placeholder {
+      color: #aaa;
+    }
+
+    .dark-toggle {
+      background: none;
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.8rem;
+      transition: all 0.3s ease-in-out;
+      margin-left: 1rem;
+    }
+
+    .dark-toggle:hover {
+      background: #fff;
+      color: #111;
+    }
+
+    header .dark-toggle {
+      border-color: #ccc;
+      color: #ccc;
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+  </style>
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
+    }
+
+    // Load preference
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('dark-mode') === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+  </script>
+  <style>
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+      margin-left: 1rem;
+      vertical-align: middle;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider-toggle {
+      background-color: #424242;
+    }
+
+    input:checked+.slider-toggle:before {
+      transform: translateX(24px);
+    }
+
+
+    body.dark-mode .slider-toggle {
+      background-color: #666;
+    }
+
+    body.dark-mode input:checked+.slider-toggle {
+      background-color: #fff;
+    }
+
+    body.dark-mode input:checked+.slider-toggle:before {
+      background-color: #111;
+    }
+  </style>
+  <script>
+    function toggleDarkModeSwitch(el) {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('dark-mode') === 'true') {
+        document.body.classList.add('dark-mode');
+        const toggleInput = document.getElementById("darkSwitch");
+        if (toggleInput) toggleInput.checked = true;
+      }
+    });
+  </script>
+  <style>
+    body.dark-mode {
+      background-color: #121212;
+    }
+  </style>
+  <style>
+    body {
+      background-color: #fefefe;
+    }
+
+
+
+    body.dark-mode {
+      background-color: #121212;
+    }
+
+    body.dark-mode::before {
+      filter: invert(1);
+      opacity: 0.04;
+    }
+  </style>
+  <style>
+    canvas#backgroundCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+
+    }
+
+    .cursor.hover {
+      transform: translate(-50%, -50%) scale(1.8);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    
+  </style>
+  <style>
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-thumb {
+      background: #444;
+    }
+
+    body.dark-mode ::-webkit-scrollbar-thumb:hover {
+      background: #666;
+    }
+
+    header {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+  </style>
+  <style>
+    @media (max-width: 768px) {
+
+      .portfolio-slide video,
+      .portfolio-slide iframe {
+        width: 100% !important;
+        height: auto !important;
+      }
+    }
+  </style>
+  <style>
+    .slider-container {
+      position: relative;
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #999;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .slider-arrow.left {
+      left: -60px;
+    }
+
+    .slider-arrow.right {
+      right: -60px;
+    }
+  </style>
+  <style>
+    @media (max-width: 768px) {
+      .slider-arrow.left {
+        left: 10px !important;
+      }
+
+      .slider-arrow.right {
+        right: 10px !important;
+      }
+    }
+  </style>
+
+</head>
+<script>
+  function sendEmail() {
+    const name = document.querySelector('input[name="name"]').value;
+    const email = document.querySelector('input[name="email"]').value;
+    const message = document.querySelector('textarea[name="message"]').value;
+
+    const subject = encodeURIComponent(`Contact from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+
+    window.location.href = `mailto:your@email.com?subject=${subject}&body=${body}`;
+    return false; // prevent form submission
+  }
+</script>
+
+<body>
+  <canvas id="backgroundCanvas"></canvas>
+  <div class="cursor" id="customCursor" style="display:none;"></div>
+  <header>
+    <img alt="Logo" src="https://cdn.prod.website-files.com/67faf4c9f4590010d562d896/67faf5433af51c4fe95cfe4e_logo.png"
+      style="height:60px;" />
+    
+<div class="header-right">
+  <nav class="nav-links">
+    <a href="#about">About</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <label class="switch desktop-switch">
+    <input id="darkSwitch" onclick="toggleDarkModeSwitch(this)" type="checkbox" />
+    <span class="slider-toggle"></span>
+  </label>
+</div>
+
+  </header>
+  <section class="hero fade-in-section">
+    <img alt="Nikola Veinović"
+      src="https://cdn.prod.website-files.com/67faf4c9f4590010d562d896/680b6de7bc2f63aea9f9fb8f_Prava%20slika.png" />
+    <div>
+      <h1>Hello, I'm Nikola Veinović</h1>
+      <h3>Game developer &amp; 3D artist from Serbia.</h3>
+      <p class="hero-description">I specialize in 3D animation, modeling, and game development. Here you can see some of
+        my projects.</p>
+      <div class="cv-buttons">
+        <div class="dropdown">
+          <button class="cv-btn">Download CV</button>
+          <div class="dropdown-content">
+            <a download="" href="CV English.pdf">English</a>
+            <a download="" href="CV Srpski.pdf">Serbian</a>
+          </div>
+        </div>
+        <a aria-label="Instagram" class="social-link" href="https://www.instagram.com/veinovic_/" target="_blank">
+          <i class="fa fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="fade-in-section" id="about">
+    <h2
+      style="font-size: 2rem;font-weight: 800;text-align: left;margin-bottom: 1.2rem;text-transform: uppercase;color: #222;position: relative;padding-bottom: 0.4rem;letter-spacing: 0.5px;">
+      About Me</h2>
+    <p>I am currently in my fourth year of studying Game Development at Metropolitan University.<br />Although my
+      program is primarily focused on programming, I fell in love with Maya in my<br />first year, and in my third year,
+      through an animation course, I realized that this is the field I<br />want to pursue.<br /><br />I am highly
+      creative and enjoy exploring new ideas. Almost every day I get a new<br />inspiration, and as time goes by, I’m
+      focusing more on animation and modeling.<br /><br />I’m currently working on my portfolio and looking for an
+      internship to further advance by<br />learning from others.<br /><br />In my free time, I enjoy playing social and
+      video games, watching movies and TV shows, and<br />going out to parties.</p>
+  </section>
+  <section class="fade-in-section" id="portfolio">
+    <h2
+      style="font-size: 2.8rem;font-weight: 900;text-align: left;margin-bottom: 2rem;text-transform: uppercase;background: none;color: #222;position: relative;padding-bottom: 0.5rem;letter-spacing: 0.5px;">
+      Portfolio</h2>
+    <div class="portfolio-toggle">
+      <button class="active" id="game-slider-btn" onclick="switchPortfolio('game')">Game Dev</button>
+      <button id="modeling-slider-btn" onclick="switchPortfolio('modeling')">3D Artist</button>
+    </div>
+    <div class="portfolio-slider-wrapper">
+      <div class="portfolio-slider" id="modeling-slider">
+        <div class="slider-wrapper">
+          <div class="portfolio-slide">
+            <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
+                src="https://www.youtube.com/embed/gxtalk2ru8c?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
+              <div class="skills-grid">
+                <div class="skill-box">3D Modeling</div>
+                <div class="skill-box">Maya</div>
+                <div class="skill-box">Animation</div>
+                <div class="skill-box">Rendering</div>
+                <div class="skill-box">Storyboarding</div>
+              </div>
+            </div>
+            <div class="portfolio-text">
+              <h3 class="project-name">Ika</h3>
+              <div class="portfolio-description">
+                <p>This animation was created as part of a university project and represents my first major work in 3D
+                  animation. It follows a scientist named Ika, who is excited about a portal he has built. He rides his
+                  hoverboard around the dining table, waves, then heads through the hallway into the garage, where he
+                  accidentally falls over the railing. After getting back up, he jumps into the portal and
+                  disappears.<br /><br />The animation was originally imagined as a backstory for a game I was planning
+                  to develop. While working on it, I discovered how passionate I am about animation. This project marked
+                  the moment I realized I wanted to focus more seriously on animation and modeling. I created the entire
+                  project myself - from modeling and environment design to animation and rendering.</p>
+                <div style="text-align:center; margin-top:10px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-container"><button class="slider-arrow left" onclick="moveSlide('game-slider', -1)">❮</button>
+      <div class="portfolio-slider-wrapper">
+        <div class="portfolio-slider active" id="game-slider">
+          <div class="slider-wrapper">
+            <div class="portfolio-slide">
+              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
+                  src="https://www.youtube.com/embed/EQ4SlKFYTSM?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
+                <div class="skills-grid">
+                  <div class="skill-box">Unity</div>
+                  <div class="skill-box">Bolt</div>
+                  <div class="skill-box">Photoshop</div>
+                  <div class="skill-box">Audacity</div>
+                  <div class="skill-box">Pixel Art</div>
+                  <div class="skill-box">Level Design</div>
+                </div>
+              </div>
+              <div class="portfolio-text">
+                <h3 class="project-name">Mars Escape</h3>
+                <div class="portfolio-description">
+                  <p>Mars Escape was my first contact with game development – a 2D platformer created as a demo project
+                    for the Introduction to Video Games course at university. In the game, the player explores the
+                    surface of Mars, collecting coins and avoiding aliens that patrol the platforms and can kill the
+                    player on contact.<br /><br />The game was developed in Unity using the Bolt visual scripting tool,
+                    which was a requirement for the course assignment. I created all the visual assets myself in
+                    Photoshop. I chose a pixel art style because it allowed me to achieve a cohesive and appealing look,
+                    even without advanced drawing skills.<br /><br />I edited all sound effects in Audacity, tailoring
+                    them to match the visual style and overall atmosphere of the game.<br /><br />Mars Escape gave me a
+                    solid introduction to the game development process and laid the foundation for future projects.</p>
+                  <div style="text-align:center; margin-top:10px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-slide">
+              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
+                  src="https://www.youtube.com/embed/fEhewogkyfs?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
+                <div class="skills-grid">
+                  <div class="skill-box">OpenGL</div>
+                  <div class="skill-box">C++</div>
+                  <div class="skill-box">Puzzle Design</div>
+                  <div class="skill-box">Photoshop</div>
+                  <div class="skill-box">Audacity</div>
+                </div>
+              </div>
+              <div class="portfolio-text">
+                <h3 class="project-name">Way Out</h3>
+                <div class="portfolio-description">
+                  <p>Way Out is a 2D pixel art puzzle game with escape room elements, developed for university using
+                    OpenGL. The game consists of three levels. In the first two, the player must find a key by solving
+                    logical puzzles — like moving books, chess pieces, and interpreting hidden messages. The third level
+                    presents another puzzle that must be solved in order to choose the correct door and
+                    escape.<br /><br />All visual assets were created in Photoshop using a pixel art style, and sound
+                    effects were edited in Audacity. The demo version of the game is completed and represents my take on
+                    classic escape room mechanics within a 2D environment.</p>
+                  <div style="text-align:center; margin-top:10px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-slide">
+              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
+                  src="https://www.youtube.com/embed/r1uhyLyiDx4?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
+                <div class="skills-grid">
+                  <div class="skill-box">Unity</div>
+                  <div class="skill-box">Photoshop</div>
+                  <div class="skill-box">Maya</div>
+                  <div class="skill-box">Audacity</div>
+                  <div class="skill-box">Story Design</div>
+                </div>
+              </div>
+              <div class="portfolio-text">
+                <h3 class="project-name">Exit</h3>
+                <div class="portfolio-description">
+                  <p>Exit is a top-down RPG demo in which the player takes on the role of Petar Venčić – a man who,
+                    after clinical death, wakes up buried in his own grave and manages to dig himself out. He doesn’t
+                    know how he survived, but he knows he must find a way out of the eerie cemetery. As he wanders
+                    through the graveyard, he soon realizes he is not alone – a group of cultists is there to perform a
+                    ritual, and Petar becomes their target.<br /><br />In order to survive and escape, Petar finds an
+                    improvised weapon and begins searching for the key that unlocks the cemetery gate. His path leads
+                    him to a chapel, where he faces the most dangerous confrontation with those who want him
+                    dead.<br /><br />The game features an intro sequence made up of images I drew, accompanied by
+                    typewriter-style text, creating an atmospheric introduction to the story and hinting at the
+                    mysterious background of the events.<br /><br />Exit was created as part of a university course,
+                    using Unity, Photoshop, Maya, and Audacity.</p>
+                  <div style="text-align:center; margin-top:10px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="portfolio-slide">
+              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
+                  src="https://www.youtube.com/embed/sx8Vl0dXy60?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
+                <div class="skills-grid">
+                  <div class="skill-box">Unity</div>
+                  <div class="skill-box">AI Logic</div>
+                  <div class="skill-box">Tower Defense</div>
+                  <div class="skill-box">Photoshop</div>
+                  <div class="skill-box">Maya</div>
+                  <div class="skill-box">Audacity</div>
+                </div>
+              </div>
+              <div class="portfolio-text">
+                <h3 class="project-name">Moon Defense - The Zarax Menace</h3>
+                <div class="portfolio-description">
+                  <p>Moon Defense - The Zarax Menace is a 3D tower defense strategy set in the year 2300 on the Moon,
+                    where the player takes on the role of a commander tasked with defending Luna Link, the main
+                    communication tower between the Moon and Earth. Players must use their strategic skills to defend
+                    the tower from mysterious alien ships known as Zarax.<br /><br />Enemies emerge from tunnels and
+                    move using the A* algorithm, making each wave increasingly challenging. As the rounds progress, more
+                    enemies appear, and an additional challenge comes from the UFO, which randomly spawns new enemies at
+                    different points along the path.<br /><br />Since the game was developed for a university project,
+                    the focus was on allowing the player to interact with the environment (placing, removing, and
+                    upgrading objects...). In addition to these and basic mechanics, artificial intelligence elements
+                    were implemented, including the A* algorithm for enemy navigation, state machine systems for their
+                    behavior, and additional AI logic that adds complexity and dynamism to the game.<br /><br />The game
+                    was developed using Unity, Maya, Photoshop, and Audacity.</p>
+                  <div style="text-align:center; margin-top:10px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="slider-arrow right" onclick="moveSlide('game-slider', 1)">❯</button>
+        </div>
+      </div><button class="slider-arrow right" onclick="moveSlide('game-slider', 1)">❯</button>
+    </div>
+  </section>
+  <section class="fade-in-section" id="contact" style="padding: 4rem 1rem; max-width: 1000px; margin: auto;">
+    <h2
+      style="font-size: 2.6rem;font-weight: 900;text-align: left;margin-bottom: 1.5rem;text-transform: uppercase;color: #222;position: relative;padding-bottom: 0.5rem;letter-spacing: 0.5px;">
+      Contact</h2>
+    <div
+      style="background: #f9f9f9; padding: 2rem; border-left: 5px solid #424242; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+      <form onsubmit="return sendEmail();">
+        <input id="name" placeholder="Your Name" required="" type="text" />
+        <input id="email" placeholder="Your Email" required="" type="email">
+        <textarea id="message" placeholder="Your Message" required="" rows="5"></textarea>
+        <button type="submit">Send Email</button>
+        </input>
+      </form>
+    </div>
+  </section>
+  <script>
+    function sendEmail() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      const subject = encodeURIComponent("New Message from " + name);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+      );
+
+      const mailtoLink = `mailto:nveinovic02@gmail.com?subject=${subject}&body=${body}`;
+
+      window.location.href = mailtoLink;
+      return false; // Prevent actual form submission
+    }
+  </script>
+  <footer>
+    © 2025 Nikola Veinović. All rights reserved.
+  </footer>
+  <div class="modal" id="readMoreModal"
+    style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.6);">
+    <div class="modal-content"
+      style="background-color:#fff; margin:10% auto; padding:20px; border:1px solid #888; width:80%; max-width:700px; border-radius:8px;">
+      <span class="close" onclick="document.getElementById('readMoreModal').style.display='none'"
+        style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">×</span>
+      <div id="modal-text" style="margin-top:20px; white-space:pre-line;"></div>
+    </div>
+  </div>
+  <script>
+    function showModal(text) {
+      document.getElementById('modal-text').innerText = text;
+      document.getElementById('readMoreModal').style.display = 'block';
+    }
+  </script>
+  <script>
+    function toggleReadMore(button) {
+      const span = button.previousElementSibling;
+      if (span.style.display === "none" || span.style.display === "") {
+        span.style.display = "inline";
+        button.textContent = "Read less";
+      } else {
+        span.style.display = "none";
+        button.textContent = "Read more";
+      }
+    }
+  </script>
+  <script>
+    function toggleReadMore(button) {
+      const span = button.parentElement.previousElementSibling.querySelector('.more-text');
+      if (span.style.display === "none" || span.style.display === "") {
+        span.style.display = "inline";
+        button.textContent = "Read less";
+      } else {
+        span.style.display = "none";
+        button.textContent = "Read more";
+      }
+    }
+  </script>
+  <script>
+    const canvas = document.createElement("canvas");
+    canvas.id = "backgroundCanvas";
+    document.body.insertBefore(canvas, document.body.firstChild);
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const lines = Array.from({ length: 60 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      length: 80 + Math.random() * 60,
+      angle: Math.random() * Math.PI * 2,
+      speed: 0.5 + Math.random()
+    }));
+
+    let mouse = { x: width / 2, y: height / 2 };
+
+    window.addEventListener("mousemove", e => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const isDark = document.body.classList.contains("dark-mode");
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+
+      const lineCount = 10;
+      const pointCount = 60;
+      const waveHeight = 20;
+      const waveSpeed = 0.002;
+
+      for (let i = 0; i < lineCount; i++) {
+        const baseY = (canvas.height / (lineCount + 1)) * (i + 1);
+        ctx.beginPath();
+
+        for (let j = 0; j < pointCount; j++) {
+          const x = (canvas.width - 1) * j / (pointCount - 1);
+          const y = baseY + Math.sin(t * waveSpeed + j * 0.3 + i) * waveHeight + Math.sin((cursor.y - 0.5) * Math.PI) * 100;
+          if (j === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+
+        ctx.stroke();
+      }
+
+      t++;
+      requestAnimationFrame(draw);
+    }
+
+
+
+    draw();
+
+    window.addEventListener("resize", () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+  </script>
+  <script>
+    const cursor = document.createElement("div");
+    cursor.id = "customCursor";
+    cursor.className = "cursor";
+    document.body.appendChild(cursor);
+
+    document.addEventListener("mousemove", e => {
+      cursor.style.left = e.clientX + "px";
+      cursor.style.top = e.clientY + "px";
+    });
+
+    document.querySelectorAll("a, button").forEach(el => {
+      el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
+      el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const canvas = document.getElementById("backgroundCanvas");
+      const ctx = canvas.getContext("2d");
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      const lineCount = 12;
+      const pointCount = 20;
+      const lines = [];
+
+      // Kreiramo linije sa tačkama koje će se organski pomerati
+      for (let i = 0; i < lineCount; i++) {
+        const y = (height / (lineCount + 1)) * (i + 1);
+        const points = [];
+        for (let j = 0; j < pointCount; j++) {
+          const x = (canvas.width - 1) * j / (pointCount - 1);
+          points.push({
+            x: x,
+            y: y + Math.random() * 40 - 20,
+            baseY: y,
+            offset: Math.random() * 1000,
+          });
+        }
+        lines.push(points);
+      }
+
+      let t = 0;
+      let cursor = { x: 0.5, y: 0.5 };
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const isDark = document.body.classList.contains("dark-mode");
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+
+        const lineCount = 10;
+        const pointCount = 60;
+        const waveHeight = 20;
+        const waveSpeed = 0.002;
+
+        for (let i = 0; i < lineCount; i++) {
+          const baseY = (canvas.height / (lineCount + 1)) * (i + 1);
+          ctx.beginPath();
+
+          for (let j = 0; j < pointCount; j++) {
+            const x = (canvas.width - 1) * j / (pointCount - 1);
+            const y = baseY + Math.sin(t * waveSpeed + j * 0.3 + i) * waveHeight + Math.sin((cursor.y - 0.5) * Math.PI) * 100;
+            if (j === 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+
+          ctx.stroke();
+        }
+
+        t++;
+        requestAnimationFrame(draw);
+      }
+
+
+
+      draw();
+
+      window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+    });
+
+    document.getElementById('modeling-slider-btn')
+  .addEventListener('click', () => {
+    document.querySelectorAll('.slider-arrow')
+            .forEach(el => el.style.display = 'none');
+  });
+  </script>
+</body>
+
+</html>
