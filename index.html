@@ -755,23 +755,120 @@
     .fade-in-section.visible .cards-grid .project-card:nth-child(4) { transition-delay: 0.19s; }
     .fade-in-section.visible .cards-grid .project-card:nth-child(5) { transition-delay: 0.24s; }
 
-    /* ── RESPONSIVE ── */
+    /* ══════════════════════════════════════
+       RESPONSIVE — TABLET  (≤ 900px)
+    ══════════════════════════════════════ */
     @media (max-width: 900px) {
       .project-detail.visible { flex-direction: column; }
+      .detail-media { min-height: 260px; }
       .detail-info { max-height: none; }
-      .detail-media iframe, .detail-media video { aspect-ratio: 16/9; }
+      .detail-media iframe, .detail-media video { aspect-ratio: 16/9; height: auto; }
     }
-    @media (max-width: 768px) {
-      section, #portfolio-section, #contact { padding: 3.5rem 1.25rem; }
-      .hero { flex-direction: column; text-align: center; }
-      .hero-img { margin: 0 auto; }
-      .cv-buttons { justify-content: center; }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE — MOBILE  (≤ 680px)
+    ══════════════════════════════════════ */
+    @media (max-width: 680px) {
+
+      /* Header */
+      header { padding: 0 1.1rem; height: 56px; }
+      header img { height: 36px; }
       nav { display: none; }
-      header { padding: 0 1.25rem; }
-      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .header-right { gap: 1rem; }
+
+      /* Sections */
+      section,
+      #portfolio-section,
+      #contact { padding: 2.75rem 1.1rem; }
+
+      /* Section title */
+      .section-title { font-size: 1.45rem; letter-spacing: 1.5px; }
+
+      /* Hero — stacked, centered */
+      .hero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.75rem;
+        padding-top: 2.5rem;
+      }
+      .hero-img {
+        width: 160px;
+        border-radius: 50%;
+      }
+      .hero-content h1 { font-size: 1.6rem; }
+      .hero-content h3 { font-size: 0.88rem; }
+      .hero-description { font-size: 0.9rem; }
+      .cv-buttons { justify-content: center; gap: 0.7rem; }
+
+      /* Dropdown — opens upward on mobile so it doesn't clip */
+      .dropdown-content {
+        top: auto;
+        bottom: calc(100% + 6px);
+        transform-origin: bottom left;
+      }
+      .dropdown:hover .dropdown-content {
+        transform: translateY(0) scale(1);
+      }
+
+      /* About */
+      #about p {
+        font-size: 0.93rem;
+        padding: 1.4rem 1.25rem;
+        line-height: 1.85;
+      }
+
+      /* Portfolio toggle */
+      .portfolio-header { gap: 0.75rem; }
+      .toggle-label { font-size: 0.7rem; padding: 5px 13px; }
+
+      /* Cards — 2 col */
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.65rem;
+      }
+      .project-card { border-radius: 12px; }
+      .project-card .card-label { font-size: 0.75rem; padding: 0.5rem 0.65rem; }
+
+      /* Detail pane — full stacked */
+      .project-detail { border-radius: 12px; }
+      .project-detail.visible { flex-direction: column; }
+      .detail-media { min-height: 220px; }
+      .detail-media iframe, .detail-media video { aspect-ratio: 16/9; height: auto; }
+      .detail-info {
+        min-width: 0;
+        padding: 1.25rem 1.1rem;
+        gap: 0.75rem;
+        max-height: none;
+      }
+      .detail-info h3 { font-size: 1.1rem; }
+      .detail-info p { font-size: 0.84rem; line-height: 1.75; }
+
+      /* Slider buttons — bigger tap targets */
+      .slider-btn { width: 34px; height: 34px; font-size: 14px; }
+      .slider-counter { font-size: 0.65rem; }
+
+      /* Contact */
+      .contact-box { padding: 1.5rem 1.1rem; border-radius: 10px; }
+      form input, form textarea { font-size: 0.92rem; padding: 0.65rem 0.9rem; }
+      form button[type="submit"] { font-size: 0.9rem; padding: 0.72rem; }
+
+      /* Footer */
+      footer { font-size: 0.78rem; padding: 1.5rem 1rem; }
+
+      /* Fullscreen overlay close btn — easier tap */
+      #fs-overlay img { border-radius: 4px; }
     }
-    @media (max-width: 480px) {
-      .cards-grid { grid-template-columns: 1fr 1fr; }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE — SMALL PHONES  (≤ 400px)
+    ══════════════════════════════════════ */
+    @media (max-width: 400px) {
+      .hero-img { width: 130px; }
+      .hero-content h1 { font-size: 1.4rem; }
+      .cards-grid { gap: 0.5rem; }
+      .project-card .card-label { font-size: 0.7rem; }
+      .detail-info { padding: 1rem 0.9rem; }
     }
   </style>
 </head>
@@ -782,9 +879,9 @@
     <img alt="Logo" src="https://cdn.prod.website-files.com/67faf4c9f4590010d562d896/67faf5433af51c4fe95cfe4e_logo.png" style="height:46px;" />
     <div class="header-right">
       <nav>
-        <a href="#about" style="margin-left:0">About</a>
-        <a href="#portfolio-section" style="margin-left:1.5rem">Portfolio</a>
-        <a href="#contact" style="margin-left:1.5rem">Contact</a>
+        <a href="#about">About</a>
+        <a href="#portfolio-section">Portfolio</a>
+        <a href="#contact">Contact</a>
       </nav>
       <label class="theme-switch" aria-label="Toggle dark mode">
         <input id="darkSwitch" type="checkbox" onchange="toggleDark(this)" />
@@ -940,7 +1037,7 @@
   </div>
 
   <!-- CONTACT -->
-  <div id="contact" class="fade-in-section" style="max-width:1200px; margin:0 auto; padding:4rem 3rem;">
+  <div id="contact" class="fade-in-section">
     <h2 class="section-title">Contact</h2>
     <div class="contact-box">
       <form onsubmit="return sendEmail()">
@@ -967,11 +1064,11 @@
 
   // ── TAB SWITCH ──
   function switchTab(tab) {
-    // Stop any playing iframes in the panel being hidden
     const hiddenPanel = tab === 'games' ? '3d_art' : 'games';
-    document.querySelectorAll(`#panel-${hiddenPanel} iframe`).forEach(f => {
-      const src = f.src; f.src = ''; f.src = src;
-    });
+    // Close any open detail in the panel being hidden (kills iframes + audio)
+    if (currentOpen[hiddenPanel]) closeDetail(hiddenPanel);
+    // Also nuke any stray iframes just in case
+    document.querySelectorAll(`#panel-${hiddenPanel} iframe`).forEach(f => f.remove());
     document.getElementById('panel-games').style.display  = tab === 'games' ? '' : 'none';
     document.getElementById('panel-3d_art').style.display = tab === '3d_art' ? '' : 'none';
     document.getElementById('tab-games').classList.toggle('active', tab === 'games');
