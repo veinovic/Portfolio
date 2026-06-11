@@ -1,1804 +1,1374 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Nikola Veinović Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&amp;display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <style>
-    @media (max-width: 1117px) and (min-width: 769px) {
-  .slider-arrow.left {
-    left: -3px !important;
-  }
-  .slider-arrow.right {
-    right: -3px !important;
-  }
-}
-    html, button {
-  -webkit-tap-highlight-color: transparent; 
-  outline: none;                             
-}
-    .portfolio-slide iframe {
-      width: 100%;
-      max-width: 100%;
-      aspect-ratio: 16 / 9;
-      border: none;
-      display: block;
-      margin: 0 auto;
-      vertical-align: top;
-      display: block;
-      margin: 0 auto;
-      padding: 0;
-      vertical-align: top;
-      line-height: 0;
+    /* ── RESET & TOKENS ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f7f7f5;
+      --surface: #ffffff;
+      --surface2: #f0f0ed;
+      --border: #e3e3df;
+      --text: #181818;
+      --text2: #5a5a56;
+      --accent: #222222;
+      --accent2: #3d3d3d;
+      --tag-bg: #ebebeb;
+      --tag-color: #333;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.07);
+      --card-hover: 0 2px 8px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.11);
+      --ease: cubic-bezier(.22,1,.36,1);
+      --ease-spring: cubic-bezier(.34,1.56,.64,1);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    body.dark-mode {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface2: #222222;
+      --border: #2e2e2e;
+      --text: #eeeeea;
+      --text2: #999994;
+      --accent: #f0f0f0;
+      --accent2: #c8c8c4;
+      --tag-bg: #282828;
+      --tag-color: #c0c0bc;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.35);
+      --card-hover: 0 2px 8px rgba(0,0,0,0.4), 0 12px 32px rgba(0,0,0,0.5);
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Nunito Sans', sans-serif;
-      line-height: 1.6;
-      color: #222;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      transition: background 0.4s var(--ease), color 0.4s var(--ease);
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.35); }
+    body.dark-mode ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
+
+    /* ── HEADER ── */
     header {
-      background: #424242;
-      padding: 1rem 2rem;
+      background: rgba(58,58,58,0.84);
+      backdrop-filter: blur(20px) saturate(160%);
+      -webkit-backdrop-filter: blur(20px) saturate(160%);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 0 2.5rem;
+      height: 64px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 1000;
-      border-bottom: 1px solid #eee;
     }
 
     header img {
-      height: 40px;
+      height: 44px;
+      transition: opacity 0.2s;
+    }
+    header img:hover { opacity: 0.85; }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
     }
 
+    nav { display: flex; gap: 0.25rem; }
     nav a {
-      margin-left: 1.5rem;
       text-decoration: none;
+      color: rgba(255,255,255,0.78);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      transition: color 0.18s, background 0.18s;
+    }
+    nav a:hover {
       color: #fff;
-      font-weight: bold;
-      font-size: 0.8rem;
-      letter-spacing: 0.5px;
+      background: rgba(255,255,255,0.09);
     }
 
-    section {
-      padding: 4rem 1rem;
-      max-width: 1000px;
-      margin: auto;
+    /* ── DARK MODE SWITCH ── */
+    .theme-switch {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .theme-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+    .ts-track {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.35), inset 0 -1px 1px rgba(255,255,255,0.08), 0 1px 0 rgba(255,255,255,0.1);
+      transition: background 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+      overflow: hidden;
+    }
+    .ts-track::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      background: radial-gradient(ellipse at 38% 50%, rgba(255,210,80,0.22) 0%, transparent 68%);
+      transition: opacity 0.35s;
+    }
+    .ts-track::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      background: radial-gradient(ellipse at 62% 50%, rgba(255,255,255,0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .theme-switch input:checked + .ts-track {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.28);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.45), inset 0 -1px 1px rgba(255,255,255,0.08), 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .theme-switch input:checked + .ts-track::before { opacity: 0; }
+    .theme-switch input:checked + .ts-track::after  { opacity: 1; }
+    .ts-thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.28), 0 0.5px 1px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.06);
+      transition: transform 0.38s var(--ease-spring), background 0.35s, box-shadow 0.35s, width 0.15s var(--ease);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .ts-thumb .ts-icon { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    .ts-thumb .ts-sun, .ts-thumb .ts-moon { position: absolute; transition: opacity 0.25s, transform 0.35s var(--ease-spring); }
+    .ts-thumb .ts-sun  { opacity: 1; transform: scale(1) rotate(0deg); }
+    .ts-thumb .ts-moon { opacity: 0; transform: scale(0.6) rotate(-30deg); }
+    .theme-switch input:checked ~ .ts-track .ts-thumb {
+      transform: translateX(24px);
+      background: #2a2a2a;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 0.5px 1px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.2);
+    }
+    .theme-switch input:checked ~ .ts-track .ts-thumb .ts-sun  { opacity: 0; transform: scale(0.6) rotate(30deg); }
+    .theme-switch input:checked ~ .ts-track .ts-thumb .ts-moon { opacity: 1; transform: scale(1) rotate(0deg); }
+    .theme-switch:active .ts-track { box-shadow: inset 0 2px 5px rgba(0,0,0,0.4), inset 0 -1px 1px rgba(255,255,255,0.06); }
+    .theme-switch:active .ts-thumb { width: 26px; }
+    .theme-switch:focus-within .ts-track { outline: 2px solid rgba(255,255,255,0.5); outline-offset: 2px; }
+
+    /* ── SECTION BASE ── */
+    section, #portfolio-section, #contact {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 3rem;
     }
 
-    @media (min-width: 769px) {
-      section {
-        padding: 4rem 2rem;
-      }
+    .section-title {
+      font-size: 1.85rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text);
+      position: relative;
+      padding-bottom: 0.75rem;
+      margin-bottom: 2.25rem;
     }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 36px; height: 3px;
+      background: var(--accent2);
+      border-radius: 2px;
+      transition: width 0.4s var(--ease);
+    }
+    .section-title:hover::after { width: 56px; }
 
+    /* ── HERO ── */
     .hero {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 2rem;
+      gap: 3.5rem;
+      flex-wrap: nowrap;
     }
 
-    .hero img {
-      max-width: 300px;
-      width: 100%;
-      border-radius: 12px;
+    .hero-img {
+      width: 280px;
+      min-width: 160px;
+      border-radius: 18px;
+      object-fit: cover;
+      flex-shrink: 0;
+      transition: transform 0.35s var(--ease);
+    }
+    .hero-img:hover {
+      transform: translateY(-2px);
     }
 
-    .hero>div {
-      flex: 1;
+    .hero-content h1 {
+      font-size: 2.1rem;
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: -0.3px;
+      margin-bottom: 0.4rem;
+    }
+    .hero-content h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: 0.3px;
+      margin-bottom: 0.85rem;
+    }
+    .hero-description {
+      font-style: italic;
+      color: var(--text2);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
     }
 
     .cv-buttons {
       display: flex;
       align-items: center;
-      margin-top: 1rem;
-      gap: 10px;
+      gap: 0.85rem;
+      flex-wrap: wrap;
     }
 
-    .dropdown {
-      position: relative;
-    }
-
+    /* ── DROPDOWN / CV BUTTON ── */
+    .dropdown { position: relative; }
     .cv-btn {
-      padding: 0.75rem 1.5rem;
-      background: #111;
+      padding: 0.6rem 1.35rem;
+      background: var(--accent);
       color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
       border: none;
+      border-radius: 8px;
       cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.4px;
+      transition: background 0.2s, transform 0.18s var(--ease), box-shadow 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
+    .cv-btn:hover {
+      background: #3a3a3a;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    }
+    .cv-btn:active { transform: translateY(0); }
+    body.dark-mode .cv-btn { background: #f0f0f0; color: #111; }
+    body.dark-mode .cv-btn:hover { background: #fff; }
 
     .dropdown-content {
-      display: none;
+      display: block;
       position: absolute;
-      background-color: #fff;
-      min-width: 160px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-      z-index: 100;
+      top: calc(100% + 6px);
+      left: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-width: 145px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06);
+      z-index: 50;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px) scale(0.97);
+      transform-origin: top left;
+      transition: opacity 0.18s var(--ease), visibility 0.18s, transform 0.18s var(--ease);
     }
-
+    .dropdown:hover .dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
     .dropdown-content a {
       display: block;
-      color: #424242;
-      padding: 8px 12px;
+      padding: 9px 15px;
       text-decoration: none;
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 6px;
+      margin: 3px;
+      transition: background 0.14s;
     }
+    .dropdown-content a:hover { background: var(--surface2); }
 
-    .dropdown-content a:hover {
-      background-color: #efefef;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
+    /* ── SOCIAL LINKS ── */
+    .social-icons { display: flex; align-items: center; gap: 0.55rem; }
     .social-link {
-      text-decoration: none;
-    }
-
-    .social-link .fa-instagram {
-      font-size: 24px;
-      color: #424242;
-      margin-top: 5px;
-    }
-
-    .hero-description {
-      margin-top: 1rem;
-      font-style: italic;
-      color: #555;
-    }
-
-    .portfolio-toggle {
       display: flex;
-      justify-content: center;
-      margin-bottom: 2rem;
-      gap: 1rem;
-      color: #333;
-    }
-
-    .portfolio-toggle button {
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      background: #ccc;
-      color: #333;
-    }
-
-    .portfolio-toggle button.active {
-      background: #111;
-      color: #fff;
-    }
-
-    .portfolio-slider {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      display: none;
-    }
-
-    .portfolio-slider.active {
-      display: block;
-    }
-
-    .slider-wrapper {
-      display: flex;
-      transition: transform 0.5s ease;
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-
-    .portfolio-slide {
-      display: flex;
-      flex-direction: row;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      width: 100%;
-      padding: 2rem 1rem;
-      box-sizing: border-box;
-      gap: 2rem;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text2);
+      font-size: 15px;
+      transition: background 0.2s var(--ease), color 0.2s, transform 0.22s var(--ease-spring), box-shadow 0.2s;
+    }
+    .social-link:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-2px) scale(1.06);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    .portfolio-slide iframe {
+    /* ── ABOUT ── */
+    #about p {
+      font-size: 1.02rem;
+      line-height: 1.95;
+      color: var(--text2);
+      background: var(--surface);
+      padding: 2rem 2.25rem;
+      border-left: 3px solid var(--accent2);
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+    }
+
+    /* ── PORTFOLIO ── */
+    .portfolio-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .portfolio-type-toggle {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px;
+    }
+    .toggle-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 99px;
+      cursor: pointer;
+      color: var(--text2);
+      transition: background 0.22s var(--ease), color 0.22s, box-shadow 0.22s;
+      white-space: nowrap;
+    }
+    .toggle-label.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    }
+    body.dark-mode .toggle-label.active { background: #f0f0f0; color: #111; }
+
+    /* ── CARDS ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.28s var(--ease), transform 0.28s var(--ease), border-color 0.2s;
+      box-shadow: var(--card-shadow);
+    }
+    .project-card:hover {
+      box-shadow: var(--card-hover);
+      transform: translateY(-4px);
+    }
+    .project-card:active { transform: translateY(-1px); }
+    .project-card.selected {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 2.5px var(--accent2), var(--card-shadow);
+    }
+    .project-card img {
       width: 100%;
-      max-width: 560px;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s var(--ease);
+    }
+    .project-card:hover img { transform: scale(1.05); }
+    .project-card .card-label {
+      padding: 0.6rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── PROJECT DETAIL ── */
+    .project-detail {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      min-height: 420px;
+    }
+    .project-detail.visible {
+      display: flex;
+      flex-direction: row;
+      animation: detailReveal 0.38s var(--ease) both;
+    }
+
+    @keyframes detailReveal {
+      from { opacity: 0; transform: translateY(14px) scale(0.99); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .detail-media {
+      flex: 3;
+      background: #0e0e0e;
+      position: relative;
+      min-height: 420px;
+      display: flex;
+      align-items: stretch;
+    }
+    .detail-media iframe,
+    .detail-media video {
+      width: 100%;
       aspect-ratio: 16/9;
       border: none;
-      flex: 1;
+      display: block;
+      height: 100%;
     }
-
-    .portfolio-text {
-      flex: 1;
-      max-width: 600px;
-      text-align: left;
-      padding: 1rem;
+    .detail-media .media-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
     }
-
-    /* Responsive za mobilne uređaje */
-    @media (max-width: 768px) {
-      .portfolio-slide {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .portfolio-text {
-        text-align: center;
-        padding: 1rem 0;
-      }
-    }
-
-    .portfolio-slide img {
-      width: 300px;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    .portfolio-text {
+    .detail-media .media-gallery img {
       width: 100%;
-      max-width: 600px;
-      padding: 1rem;
-      text-align: center;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      height: 100%;
+    }
+    .detail-media .media-gallery img:first-child:last-child {
+      grid-column: 1/-1;
+    }
+
+    .detail-info {
       flex: 1;
-    }
-
-    .slider-arrow {
-      background: rgba(0, 0, 0, 0.4);
-      color: white;
-      font-size: 2rem;
-      z-index: 10;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      background: none;
-      border: none;
-      color: #424242;
-      cursor: pointer;
-      z-index: 1;
-      opacity: 0.5;
-    }
-
-    .slider-arrow.left {
-      left: 10px;
-    }
-
-    .slider-arrow.right {
-      right: 10px;
-    }
-
-    form {
+      min-width: 280px;
+      padding: 2rem 1.85rem;
       display: flex;
       flex-direction: column;
+      gap: 1rem;
+      overflow-y: auto;
+      max-height: 520px;
+      scroll-behavior: smooth;
     }
+    .detail-info::-webkit-scrollbar { width: 4px; }
+    .detail-info::-webkit-scrollbar-thumb { border-radius: 999px; background: rgba(0,0,0,0.15); }
+    body.dark-mode .detail-info::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
 
-    form input,
-    form textarea {
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+    .detail-info h3 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: -0.2px;
+      color: var(--text);
     }
+    .detail-info p {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--text2);
+    }
+    .detail-info p + p { margin-top: 0.65rem; }
 
-    form button {
-      background: #111;
-      color: white;
-      padding: 0.75rem;
-      border: none;
-      border-radius: 5px;
+    .skills-grid { display: none; flex-wrap: wrap; gap: 5px; }
+    .skill-box {
+      padding: 4px 11px;
+      border-radius: 99px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: var(--tag-bg);
+      color: var(--tag-color);
+      border: 1px solid var(--border);
+      letter-spacing: 0.2px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .skill-box:hover { background: var(--border); }
+
+    .close-detail-btn {
+      align-self: flex-end;
+      padding: 4px 12px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
       cursor: pointer;
+      color: var(--text2);
+      font-family: inherit;
+      transition: background 0.15s;
+      margin-left: auto;
+    }
+    .close-detail-btn:hover { background: var(--border); color: var(--text); }
+
+    /* ── SLIDER / CANVAS ── */
+    .simple-slider {
+      position: relative;
+      width: 100%; height: 100%;
+      min-height: 420px;
+      overflow: hidden;
+      background: #0e0e0e;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .simple-slider img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: none;
+      background: #0e0e0e;
+    }
+    .simple-slider img.active { display: block; }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 38px; height: 38px;
+      border: none; border-radius: 50%;
+      background: rgba(0,0,0,0.55);
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 2;
+      backdrop-filter: blur(6px);
+      transition: background 0.15s, transform 0.15s var(--ease-spring);
+    }
+    .slider-prev { left: 10px; }
+    .slider-next { right: 10px; }
+    .slider-btn:hover {
+      background: rgba(0,0,0,0.8);
+      transform: translateY(-50%) scale(1.08);
     }
 
+    .parallax-canvas-wrap {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      cursor: none;
+    }
+    .parallax-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .parallax-canvas-wrap .slider-btn { z-index: 10; }
+
+    .parallax-cursor {
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      opacity: 0;
+      transition: opacity 0.2s;
+      mix-blend-mode: difference;
+    }
+
+    .slider-counter {
+      position: absolute;
+      bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 99px;
+      z-index: 10;
+      pointer-events: none;
+      letter-spacing: 0.6px;
+    }
+
+    /* ── SOFTWARE USED ── */
+    .software-used {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      margin-top: auto;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    .sw-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-right: 2px;
+    }
+    .sw-tag {
+      padding: 4px 11px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: var(--accent);
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+    body.dark-mode .sw-tag { background: #383838; color: #e8e8e4; }
+
+    /* ── CLOSE FLOATING ── */
+    .close-floating {
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 38px; height: 38px;
+      border: none; border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      cursor: pointer;
+      z-index: 50;
+      font-size: 14px;
+      transition: background 0.15s, transform 0.18s var(--ease-spring);
+    }
+    .close-floating:hover { background: rgba(0,0,0,0.85); transform: scale(1.1); }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      background: var(--surface);
+      padding: 2.25rem;
+      border-left: 3px solid var(--accent2);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+    }
+
+    form { display: flex; flex-direction: column; gap: 0.85rem; }
+    form input, form textarea {
+      padding: 0.72rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.93rem;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    form input:focus, form textarea:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(66,66,66,0.1);
+    }
+    body.dark-mode form input:focus,
+    body.dark-mode form textarea:focus {
+      box-shadow: 0 0 0 3px rgba(200,200,196,0.12);
+    }
+    form textarea { resize: vertical; min-height: 120px; }
+    form button[type="submit"] {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.78rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.93rem;
+      letter-spacing: 0.2px;
+      transition: background 0.2s, transform 0.18s var(--ease), box-shadow 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    form button[type="submit"]:hover {
+      background: #383838;
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    }
+    form button[type="submit"]:active { transform: translateY(0); }
+    body.dark-mode form button[type="submit"] { background: #f0f0f0; color: #111; }
+    body.dark-mode form button[type="submit"]:hover { background: #fff; }
+
+    /* ── FOOTER ── */
     footer {
       text-align: center;
       padding: 2rem;
-      font-size: 0.9rem;
-      color: #888;
+      font-size: 0.82rem;
+      letter-spacing: 0.3px;
+      color: var(--text2);
+      border-top: 1px solid var(--border);
     }
 
-    @media (max-width: 600px) {
-      .portfolio-text {
-        width: 100%;
-        max-width: 600px;
-        padding: 1rem;
-        text-align: center;
-        padding: 0 1rem;
-      }
-
-      .slider-arrow {
-        background: rgba(0, 0, 0, 0.4);
-        color: white;
-        font-size: 2rem;
-        z-index: 10;
-        font-size: 1.5rem;
-        top: 45%;
-      }
-
-      .portfolio-text {
-        width: 100%;
-        max-width: 600px;
-        padding: 1rem;
-        text-align: center;
-        text-align: center;
-      }
-
-      nav {
-        display: none;
-      }
-
-      header {
-        flex-direction: column;
-      }
-
-      .portfolio-slide {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        max-width: 100%;
-        min-width: 100%;
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 2rem 1rem;
-        box-sizing: border-box;
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-
-    .portfolio-slider-wrapper {
-      display: flex;
-      align-items: center;
-      position: relative;
-      width: 100%;
-      gap: 10px;
-      /* spacing between arrows and slider */
-    }
-
-    .project-name {
-      margin-bottom: 10px;
-      margin-top: 16px;
-      font-size: 1.25rem;
-    }
-
-    .portfolio-slide video {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      display: block;
-      object-fit: cover;
-    }
-
-
-
-    .read-toggle {
-      display: inline-block;
-      background-color: #111;
-      color: #fff;
-      padding: 6px 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 5px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
-
-    .read-toggle:hover {
-      background-color: #333;
-    }
-
-
-    @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .hero img {
-        margin: 0 auto;
-      }
-    }
-
-
-    @media (max-width: 768px) {
-      .cv-buttons {
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-    }
-
-
-    .skill-box {
-      border: 2px solid black;
-      padding: 6px 12px;
-      font-size: 0.85rem;
-      border-radius: 5px;
-      background-color: #f7f7f7;
-    }
-
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 1rem;
-    }
-
-    .left-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      .portfolio-slide {
-        flex-direction: column;
-      }
-
-      .portfolio-text {
-        padding: 1rem 0;
-      }
-    }
-
-    /* Sexy gradient buttons */
-    .read-toggle {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 0.9rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff416c, #ff4b2b);
-      color: white;
-      box-shadow: 0 4px 12px rgba(255, 65, 108, 0.4);
-      transition: all 0.3s ease-in-out;
-    }
-
-    .read-toggle:hover {
-      background: linear-gradient(135deg, #ff4b2b, #ff416c);
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(255, 75, 43, 0.5);
-    }
-
-    /* Align title with top of video */
-    .portfolio-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 1rem;
-      text-align: left;
-      height: 100%;
-    }
-
-    .project-name {
-      margin-top: 0;
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      align-self: flex-start;
-    }
-
-    /* Match header color for main button */
-    .read-toggle {
-      background: linear-gradient(135deg, #424242, #2e2e2e);
-      box-shadow: 0 4px 12px rgba(66, 66, 66, 0.4);
-    }
-
-    .read-toggle:hover {
-      background: linear-gradient(135deg, #2e2e2e, #424242);
-      box-shadow: 0 6px 20px rgba(66, 66, 66, 0.5);
-    }
-
-    /* Sexy skill-box buttons */
-    .skill-box {
-      border: none;
-      padding: 8px 16px;
-      font-size: 0.85rem;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #424242, #2e2e2e);
-      color: #fff;
-      font-weight: 600;
-      box-shadow: 0 2px 8px rgba(66, 66, 66, 0.4);
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
-
-    .skill-box:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 16px rgba(66, 66, 66, 0.6);
-    }
-
-    /* Designer frame around iframe */
-    .left-content iframe {
-      border: 3px solid #424242;
-      border-radius: 12px;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Ensure text starts directly below the title and fills height */
-    .portfolio-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      height: 100%;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-
-    /* Optional tweak for smoother layout */
-    .portfolio-description {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    /* Let text expand and push button to bottom */
-    .portfolio-description {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .portfolio-description p {
-      flex-grow: 1;
-      margin-bottom: 1rem;
-    }
-
-    /* Ensure portfolio-slide fills consistent height */
-    .portfolio-slide {
-      align-items: stretch;
-    }
-
-    /* Make text block use available space and button stay at bottom */
-    .portfolio-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    .portfolio-description {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: space-between;
-    }
-
-    .portfolio-description p {
-      flex-grow: 1;
-      margin-bottom: 1rem;
-    }
-
-    /* Enforce minimum height for slide and make text area stretch */
-    .portfolio-slide {
-      min-height: 360px;
-      align-items: stretch;
-    }
-
-    .portfolio-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-
-    .portfolio-description {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .portfolio-description p {
-      flex-grow: 1;
-      margin: 0;
-    }
-
-    /* Remove top padding from text section and align title to top */
-    .portfolio-text {
-      padding-top: 16px !important;
-      justify-content: space-between;
-    }
-
-    .project-name {
-      margin-top: 0;
-      padding-top: 0;
-      line-height: 1.2;
-    }
-
-    /* Scrollable blur mask overlay */
-    .portfolio-description {
-      position: relative;
-      overflow: hidden;
-      max-height: 300px;
-    }
-
-    .portfolio-description p {
-      overflow-y: auto;
-      padding-right: 1rem;
-      max-height: 100%;
-    }
-
-    .portfolio-description::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: linear-gradient(to bottom, transparent, white);
-      pointer-events: none;
-    }
-
-    /* Clean scroll-only version without blur overlay */
-    .portfolio-description::after {
-      display: none;
-    }
-
-    .portfolio-description {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .portfolio-description p {
-      overflow-y: auto;
-      max-height: 100%;
-      padding-right: 1rem;
-    }
-
-    .portfolio-text {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .portfolio-description {
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 1rem;
-    }
-
-    .portfolio-description p {
-      height: 100%;
-      overflow-y: auto;
-      margin: 0;
-      padding-right: 0.5rem;
-    }
-
-    .portfolio-slide {
-      min-height: 400px;
-      height: auto;
-      align-items: stretch;
-      flex-wrap: wrap;
-    }
-
-    .portfolio-text {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .portfolio-description {
-      flex-grow: 1;
-      height: 100%;
-      overflow-y: auto;
-      padding-right: 1rem;
-    }
-
-    .portfolio-description p {
-      height: 100%;
-      overflow-y: auto;
-      margin: 0;
-      padding-right: 0.5rem;
-    }
-
-    body.dark-mode nav a {
-      color: #fff;
-    }
-
-    body.dark-mode #about h2,
-    body.dark-mode #portfolio h2,
-    body.dark-mode #contact h2 {
-      color: #fff !important;
-    }
-     body.dark-mode .hero-description{
-      color:#fff;
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-
-
-    .responsive-video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      display: block;
-      border: none;
-      object-fit: contain;
-      max-width: 100%;
-      height: auto;
-    }
-
-    @media (max-width: 768px) {
-      .responsive-video {
-        width: 100% !important;
-        height: auto !important;
-        aspect-ratio: 16 / 9 !important;
-        object-fit: contain !important;
-      }
-    }
-  
-.header-right {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .header-right {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .nav-links {
-    display: none;
-  }
-}
-
-</style>
-  <script>
-    const slidePositions = {
-      'game-slider': 0,
-      'modeling-slider': 0
-    };
-
-    function moveSlide(sliderId, direction) {
-      const slider = document.querySelector(`#${sliderId} .slider-wrapper`);
-      const slides = slider.querySelectorAll('.portfolio-slide');
-      const maxIndex = slides.length - 1;
-      slidePositions[sliderId] += direction;
-
-      if (slidePositions[sliderId] < 0) slidePositions[sliderId] = 0;
-      if (slidePositions[sliderId] > maxIndex) slidePositions[sliderId] = maxIndex;
-
-      const slideWidth = slides[0].offsetWidth;
-      slider.style.transform = `translateX(-${slidePositions[sliderId] * slideWidth}px)`;
-    }
-    window.switchPortfolio = function (type) {
-    // 1) Hide all sliders and reset
-    document.querySelectorAll('.portfolio-slider').forEach(slider => {
-      slider.classList.remove('active');
-      const wrapper = slider.querySelector('.slider-wrapper');
-      if (wrapper) wrapper.style.transform = 'translateX(0)';
-    });
-
-    // 2) Remove active sa svih tastera
-    document.querySelectorAll('.portfolio-toggle button').forEach(btn => {
-      btn.classList.remove('active');
-    });
-
-    // 3) Activate izabrani slider i dugme
-    document.getElementById(`${type}-slider`).classList.add('active');
-    document.getElementById(`${type}-slider-btn`).classList.add('active');
-
-    // 4) Reset pozicije (ako koristiš)
-    slidePositions[`${type}-slider`] = 0;
-
-    // 5) Prikaz/sakrivanje strelica
-    const arrows = document.querySelectorAll('.slider-arrow');
-    if (type === 'game') {
-      arrows.forEach(el => el.style.display = 'block');
-    } else {
-      arrows.forEach(el => el.style.display = 'none');
-    }
-  };
-
-  // inicijalno
-  document.addEventListener('DOMContentLoaded', () => {
-    switchPortfolio('game');
-  });
-  </script>
-  <style>
-    #portfolio h2::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 4px;
-      margin-top: 10px;
-      background: #424242;
-      border-radius: 2px;
-      position: absolute;
-      left: 0;
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-  </style>
-  <style>
-    #about h2::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 4px;
-      margin-top: 10px;
-      background: #424242;
-      border-radius: 2px;
-      position: absolute;
-      left: 0;
-    }
-
-    #about p {
-      font-size: 1.1rem;
-      line-height: 1.9;
-      color: #333;
-      background: #f9f9f9;
-      padding: 1.5rem 2rem;
-      border-left: 5px solid #424242;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-  </style>
-  <style>
-    #contact h2 {
-      position: relative;
-    }
-
-    #contact h2::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 4px;
-      margin-top: 10px;
-      background: #424242;
-      border-radius: 2px;
-      position: absolute;
-      left: 0;
-      top: 100%;
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-  </style>
-  <style>
-    /* Smooth transitions */
-    input,
-    textarea,
-    button {
-      transition: all 0.3s ease-in-out;
-    }
-
-    /* On focus effects */
-    input:focus,
-    textarea:focus {
-      border-color: #424242;
-      outline: none;
-      box-shadow: 0 0 8px rgba(66, 66, 66, 0.2);
-    }
-
-    /* Button hover */
-    form button:hover {
-      background: #333;
-      transform: scale(1.02);
-    }
-
-    /* Icon placeholders using background images */
-    input[name="name"] {
-      background-image: url('https://img.icons8.com/ios-filled/16/424242/user.png');
-    }
-
-    input[name="email"] {
-      background-image: url('https://img.icons8.com/ios-filled/16/424242/new-post.png');
-    }
-
-    textarea[name="message"] {
-      background-image: url('https://img.icons8.com/ios-filled/16/424242/edit.png');
-    }
-
-    input[name="name"],
-    input[name="email"],
-    textarea[name="message"] {
-      background-repeat: no-repeat;
-      background-position: 10px center;
-      background-size: 16px 16px;
-      padding-left: 35px;
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-  </style>
-  <style>
-    /* Smooth scrolling */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Fade-in animations for sections */
+    /* ── SCROLL REVEAL ── */
     .fade-in-section {
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-      will-change: opacity, transform;
+      transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
     }
+    .fade-in-section.visible { opacity: 1; transform: none; }
 
-    .fade-in-section.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-  </style>
-  <script>
-    // IntersectionObserver to trigger fade-in animation on scroll
-    document.addEventListener('DOMContentLoaded', () => {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.1 });
-
-      document.querySelectorAll('.fade-in-section').forEach(section => {
-        observer.observe(section);
-      });
-    });
-  </script>
-  <style>
-    body.dark-mode {
-      background-color: #121212;
-      color: #eee;
-    }
-
-    body.dark-mode header {
-      background-color: #1f1f1f;
-      border-bottom: 1px solid #333;
-    }
-
-    body.dark-mode nav a {
-      color: #ddd;
-    }
-
-    body.dark-mode .cv-btn,
-    body.dark-mode .read-toggle,
-    body.dark-mode form button {
-      background: #333;
-      color: #fff;
-    }
-
-    body.dark-mode .read-toggle:hover {
-      background: #444;
-    }
-
-    body.dark-mode .portfolio-text,
-    body.dark-mode #about p,
-    body.dark-mode #contact div {
-      background-color: #1e1e1e !important;
-      color: #ddd;
-    }
-
-    body.dark-mode input,
-    body.dark-mode textarea {
-      background-color: #2b2b2b;
-      color: #eee;
-      border: 1px solid #444;
-    }
-
-    body.dark-mode input::placeholder,
-    body.dark-mode textarea::placeholder {
-      color: #aaa;
-    }
-
-    .dark-toggle {
-      background: none;
-      border: 2px solid #fff;
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 0.8rem;
-      transition: all 0.3s ease-in-out;
-      margin-left: 1rem;
-    }
-
-    .dark-toggle:hover {
-      background: #fff;
-      color: #111;
-    }
-
-    header .dark-toggle {
-      border-color: #ccc;
-      color: #ccc;
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-  </style>
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
-    }
-
-    // Load preference
-    document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('dark-mode') === 'true') {
-        document.body.classList.add('dark-mode');
-      }
-    });
-  </script>
-  <style>
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 48px;
-      height: 24px;
-      margin-left: 1rem;
-      vertical-align: middle;
-    }
-
-    .switch input {
+    /* staggered children inside revealed sections */
+    .cards-grid .project-card {
       opacity: 0;
-      width: 0;
-      height: 0;
+      transform: translateY(10px);
+      transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.28s var(--ease), border-color 0.2s;
     }
+    .fade-in-section.visible .cards-grid .project-card { opacity: 1; transform: none; }
+    .fade-in-section.visible .cards-grid .project-card:nth-child(1) { transition-delay: 0.04s; }
+    .fade-in-section.visible .cards-grid .project-card:nth-child(2) { transition-delay: 0.09s; }
+    .fade-in-section.visible .cards-grid .project-card:nth-child(3) { transition-delay: 0.14s; }
+    .fade-in-section.visible .cards-grid .project-card:nth-child(4) { transition-delay: 0.19s; }
+    .fade-in-section.visible .cards-grid .project-card:nth-child(5) { transition-delay: 0.24s; }
 
-    .slider-toggle {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .project-detail.visible { flex-direction: column; }
+      .detail-info { max-height: none; }
+      .detail-media iframe, .detail-media video { aspect-ratio: 16/9; }
     }
-
-    .slider-toggle:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked+.slider-toggle {
-      background-color: #424242;
-    }
-
-    input:checked+.slider-toggle:before {
-      transform: translateX(24px);
-    }
-
-
-    body.dark-mode .slider-toggle {
-      background-color: #666;
-    }
-
-    body.dark-mode input:checked+.slider-toggle {
-      background-color: #fff;
-    }
-
-    body.dark-mode input:checked+.slider-toggle:before {
-      background-color: #111;
-    }
-  </style>
-  <script>
-    function toggleDarkModeSwitch(el) {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('dark-mode') === 'true') {
-        document.body.classList.add('dark-mode');
-        const toggleInput = document.getElementById("darkSwitch");
-        if (toggleInput) toggleInput.checked = true;
-      }
-    });
-  </script>
-  <style>
-    body.dark-mode {
-      background-color: #121212;
-    }
-  </style>
-  <style>
-    body {
-      background-color: #fefefe;
-    }
-
-
-
-    body.dark-mode {
-      background-color: #121212;
-    }
-
-    body.dark-mode::before {
-      filter: invert(1);
-      opacity: 0.04;
-    }
-  </style>
-  <style>
-    canvas#backgroundCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      pointer-events: none;
-
-    }
-
-    .cursor.hover {
-      transform: translate(-50%, -50%) scale(1.8);
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    
-  </style>
-  <style>
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #f0f0f0;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-
-    body.dark-mode ::-webkit-scrollbar-track {
-      background: #1a1a1a;
-    }
-
-    body.dark-mode ::-webkit-scrollbar-thumb {
-      background: #444;
-    }
-
-    body.dark-mode ::-webkit-scrollbar-thumb:hover {
-      background: #666;
-    }
-
-    header {
-      padding-top: 1.5rem;
-      padding-bottom: 1.5rem;
-    }
-  </style>
-  <style>
     @media (max-width: 768px) {
-
-      .portfolio-slide video,
-      .portfolio-slide iframe {
-        width: 100% !important;
-        height: auto !important;
-      }
+      section, #portfolio-section, #contact { padding: 3.5rem 1.25rem; }
+      .hero { flex-direction: column; text-align: center; }
+      .hero-img { margin: 0 auto; }
+      .cv-buttons { justify-content: center; }
+      nav { display: none; }
+      header { padding: 0 1.25rem; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .cards-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
-  <style>
-    .slider-container {
-      position: relative;
-    }
-
-    .slider-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: #999;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .slider-arrow.left {
-      left: -60px;
-    }
-
-    .slider-arrow.right {
-      right: -60px;
-    }
-  </style>
-  <style>
-    @media (max-width: 768px) {
-      .slider-arrow.left {
-        left: 10px !important;
-      }
-
-      .slider-arrow.right {
-        right: 10px !important;
-      }
-    }
-  </style>
-
 </head>
-<script>
-  function sendEmail() {
-    const name = document.querySelector('input[name="name"]').value;
-    const email = document.querySelector('input[name="email"]').value;
-    const message = document.querySelector('textarea[name="message"]').value;
-
-    const subject = encodeURIComponent(`Contact from ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-
-    window.location.href = `mailto:your@email.com?subject=${subject}&body=${body}`;
-    return false; // prevent form submission
-  }
-</script>
 
 <body>
-  <canvas id="backgroundCanvas"></canvas>
-  <div class="cursor" id="customCursor" style="display:none;"></div>
+  <!-- HEADER -->
   <header>
-    <img alt="Logo" src="https://cdn.prod.website-files.com/67faf4c9f4590010d562d896/67faf5433af51c4fe95cfe4e_logo.png"
-      style="height:60px;" />
-    
-<div class="header-right">
-  <nav class="nav-links">
-    <a href="#about">About</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <label class="switch desktop-switch">
-    <input id="darkSwitch" onclick="toggleDarkModeSwitch(this)" type="checkbox" />
-    <span class="slider-toggle"></span>
-  </label>
-</div>
-
+    <img alt="Logo" src="https://cdn.prod.website-files.com/67faf4c9f4590010d562d896/67faf5433af51c4fe95cfe4e_logo.png" style="height:46px;" />
+    <div class="header-right">
+      <nav>
+        <a href="#about" style="margin-left:0">About</a>
+        <a href="#portfolio-section" style="margin-left:1.5rem">Portfolio</a>
+        <a href="#contact" style="margin-left:1.5rem">Contact</a>
+      </nav>
+      <label class="theme-switch" aria-label="Toggle dark mode">
+        <input id="darkSwitch" type="checkbox" onchange="toggleDark(this)" />
+        <div class="ts-track">
+          <div class="ts-thumb">
+            <div class="ts-icon">
+              <!-- Sun -->
+              <svg class="ts-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(30,30,30,0.7)" stroke-width="2.2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="4"/>
+                <line x1="12" y1="2" x2="12" y2="5"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+                <line x1="2" y1="12" x2="5" y2="12"/>
+                <line x1="19" y1="12" x2="22" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+              </svg>
+              <!-- Moon -->
+              <svg class="ts-moon" width="11" height="11" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)" stroke="none">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </label>
+    </div>
   </header>
+
+  <!-- HERO -->
   <section class="hero fade-in-section">
-    <img alt="Nikola Veinović"
+    <img class="hero-img" alt="Nikola Veinović"
       src="https://cdn.prod.website-files.com/67faf4c9f4590010d562d896/680b6de7bc2f63aea9f9fb8f_Prava%20slika.png" />
-    <div>
+    <div class="hero-content">
       <h1>Hello, I'm Nikola Veinović</h1>
-      <h3>Game developer &amp; 3D artist from Serbia.</h3>
-      <p class="hero-description">I specialize in 3D animation, modeling, and game development. Here you can see some of
-        my projects.</p>
+      <h3>Game Developer &amp; 3D Artist from Serbia</h3>
+      <p class="hero-description">My work focuses on 3D modeling, animation, and game development. Here you can explore some of my projects.</p>
       <div class="cv-buttons">
         <div class="dropdown">
-          <button class="cv-btn">Download CV</button>
+          <button class="cv-btn">Download CV ▾</button>
           <div class="dropdown-content">
-            <a download href ="cv-eng.pdf">English</a>
-            <a download href="cv-srb.pdf">Serbian</a>
+            <a href="cv-eng.pdf" download>English</a>
+            <a href="cv-srb.pdf" download>Serbian</a>
           </div>
         </div>
-        <a aria-label="Instagram" class="social-link" href="https://www.instagram.com/veinovic_/" target="_blank">
-          <i class="fa fa-instagram"></i>
-        </a>
+        <div class="social-icons">
+          <a class="social-link" href="https://www.instagram.com/veinovic_/" target="_blank" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a class="social-link" href="https://www.linkedin.com/in/nikola-veinovic-113638413/" target="_blank" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- ABOUT -->
   <section class="fade-in-section" id="about">
-    <h2
-      style="font-size: 2rem;font-weight: 800;text-align: left;margin-bottom: 1.2rem;text-transform: uppercase;color: #222;position: relative;padding-bottom: 0.4rem;letter-spacing: 0.5px;">
-      About Me</h2>
-    <p>I am currently in my fourth year of studying Game Development at Metropolitan University.<br />Although my
-      program is primarily focused on programming, I fell in love with Maya in my<br />first year, and in my third year,
-      through an animation course, I realized that this is also a field<br />I see myself in.<br /><br />I am highly
-      creative and enjoy exploring new ideas. Almost every day I get a new<br />inspiration, and I love finding ways to bring those ideas to life.
-      <br /><br />I’m currently working on my portfolio and looking for an
-      internship to further advance by<br />learning from others.<br /><br />In my free time, I enjoy playing social and
-      video games, watching movies and TV shows, and<br />going out to parties.</p>
+    <h2 class="section-title">About Me</h2>
+    <p>I'm currently in my fourth year of studying Game Development at Metropolitan University. During my studies, in addition to programming courses, I developed a strong interest in 3D art, which I now dedicate a large part of my time to.<br><br>
+    As part of my studies, I completed an internship where I had the opportunity to work on various 3D projects, gaining valuable experience and learning many new skills.<br><br>
+    In addition to my internship, I was responsible for the complete development of a VR project for the exhibition <em>"Today Is The Day When No One Brought the Ball…"</em> by artist Predrag Terzić.<br><br>
+    I'm currently expanding my portfolio and looking for a job where I can continue to grow professionally and gain new knowledge through industry experience.<br><br>
+    In my free time, I enjoy playing board games and video games, watching movies and TV series, and going out with friends.</p>
   </section>
-  <section class="fade-in-section" id="portfolio">
-    <h2
-      style="font-size: 2.8rem;font-weight: 900;text-align: left;margin-bottom: 2rem;text-transform: uppercase;background: none;color: #222;position: relative;padding-bottom: 0.5rem;letter-spacing: 0.5px;">
-      Portfolio</h2>
-    <div class="portfolio-toggle">
-      <button class="active" id="game-slider-btn" onclick="switchPortfolio('game')">Game Dev</button>
-      <button id="modeling-slider-btn" onclick="switchPortfolio('modeling')">3D Artist</button>
+
+  <!-- PORTFOLIO -->
+  <div id="portfolio-section" class="fade-in-section">
+    <div class="portfolio-header">
+      <h2 class="section-title" style="margin-bottom:0">Portfolio</h2>
+      <div class="portfolio-type-toggle">
+        <span class="toggle-label active" id="tab-games" onclick="switchTab('games')">GAMES</span>
+        <span class="toggle-label" id="tab-3d_art" onclick="switchTab('3d_art')">3D ART</span>
+      </div>
     </div>
-    <div class="portfolio-slider-wrapper">
-      <div class="portfolio-slider" id="modeling-slider">
-        <div class="slider-wrapper">
-          <div class="portfolio-slide">
-            <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
-                src="https://www.youtube.com/embed/gxtalk2ru8c?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
-              <div class="skills-grid">
-                <div class="skill-box">3D Modeling</div>
-                <div class="skill-box">Maya</div>
-                <div class="skill-box">Animation</div>
-                <div class="skill-box">Rendering</div>
-                <div class="skill-box">Storyboarding</div>
-              </div>
-            </div>
-            <div class="portfolio-text">
-              <h3 class="project-name">Ika</h3>
-              <div class="portfolio-description">
-                <p>This animation was created as part of a university project and represents my first major work in 3D
-                  animation. It follows a scientist named Ika, who is excited about a portal he has built. He rides his
-                  hoverboard around the dining table, waves, then heads through the hallway into the garage, where he
-                  accidentally falls over the railing. After getting back up, he jumps into the portal and
-                  disappears.<br /><br />The animation was originally imagined as a backstory for a game I was planning
-                  to develop. While working on it, I discovered how passionate I am about animation. This project marked
-                  the moment I realized I wanted to focus more seriously on animation and modeling. I created the entire
-                  project myself - from modeling and environment design to animation and rendering.</p>
-                <div style="text-align:center; margin-top:10px;">
-                </div>
-              </div>
-            </div>
-          </div>
+
+    <!-- GAMES CARDS -->
+    <div id="panel-games">
+      <div class="cards-grid">
+        <div class="project-card" onclick="openProject('games','unforgotten')">
+          <img src="(un)forgotten_concrete.jpg"
+               onerror="this.style.background='#ddd';this.removeAttribute('src')"
+               alt="(Un)Forgotten Concrete" />
+          <div class="card-label">(Un)Forgotten Concrete</div>
+        </div>
+        <div class="project-card" onclick="openProject('games','moondefense')">
+          <img src="moon_defense.jpg" alt="Moon Defense" />
+          <div class="card-label">Moon Defense</div>
+        </div>
+        <div class="project-card" onclick="openProject('games','exit')">
+          <img src="exit.jpg" alt="Exit" />
+          <div class="card-label">Exit</div>
+        </div>
+        <div class="project-card" onclick="openProject('games','wayout')">
+          <img src="wayout.jpg" alt="Way Out" />
+          <div class="card-label">Way Out</div>
+        </div>
+        <div class="project-card" onclick="openProject('games','mars')">
+          <img src="mars_escape.jpg" alt="Mars Escape" />
+          <div class="card-label">Mars Escape</div>
+        </div>
+      </div>
+
+      <!-- DETAIL PANE — GAMES -->
+      <div class="project-detail" id="detail-games">
+        <div class="detail-media" id="detail-games-media"></div>
+        <div class="detail-info" id="detail-games-info">
+          
+          <h3 id="detail-games-title"></h3>
+          <div class="skills-grid" id="detail-games-skills"></div>
+          <p id="detail-games-desc"></p>
         </div>
       </div>
     </div>
-    <div class="slider-container"><button class="slider-arrow left" onclick="moveSlide('game-slider', -1)">❮</button>
-      <div class="portfolio-slider-wrapper">
-        <div class="portfolio-slider active" id="game-slider">
-          <div class="slider-wrapper">
-            <div class="portfolio-slide">
-              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
-                  src="https://www.youtube.com/embed/EQ4SlKFYTSM?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
-                <div class="skills-grid">
-                  <div class="skill-box">Unity</div>
-                  <div class="skill-box">Bolt</div>
-                  <div class="skill-box">Photoshop</div>
-                  <div class="skill-box">Audacity</div>
-                  <div class="skill-box">Pixel Art</div>
-                  <div class="skill-box">Level Design</div>
-                </div>
-              </div>
-              <div class="portfolio-text">
-                <h3 class="project-name">Mars Escape</h3>
-                <div class="portfolio-description">
-                  <p>Mars Escape was my first contact with game development – a 2D platformer created as a demo project
-                    for the Introduction to Video Games course at university. In the game, the player explores the
-                    surface of Mars, collecting coins and avoiding aliens that patrol the platforms and can kill the
-                    player on contact.<br /><br />The game was developed in Unity using the Bolt visual scripting tool,
-                    which was a requirement for the course assignment. I created all the visual assets myself in
-                    Photoshop. I chose a pixel art style because it allowed me to achieve a cohesive and appealing look,
-                    even without advanced drawing skills.<br /><br />I edited all sound effects in Audacity, tailoring
-                    them to match the visual style and overall atmosphere of the game.<br /><br />Mars Escape gave me a
-                    solid introduction to the game development process and laid the foundation for future projects.</p>
-                  <div style="text-align:center; margin-top:10px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="portfolio-slide">
-              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
-                  src="https://www.youtube.com/embed/fEhewogkyfs?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
-                <div class="skills-grid">
-                  <div class="skill-box">OpenGL</div>
-                  <div class="skill-box">C++</div>
-                  <div class="skill-box">Puzzle Design</div>
-                  <div class="skill-box">Photoshop</div>
-                  <div class="skill-box">Audacity</div>
-                </div>
-              </div>
-              <div class="portfolio-text">
-                <h3 class="project-name">Way Out</h3>
-                <div class="portfolio-description">
-                  <p>Way Out is a 2D pixel art puzzle game with escape room elements, developed for university using
-                    OpenGL. The game consists of three levels. In the first two, the player must find a key by solving
-                    logical puzzles — like moving books, chess pieces, and interpreting hidden messages. The third level
-                    presents another puzzle that must be solved in order to choose the correct door and
-                    escape.<br /><br />All visual assets were created in Photoshop using a pixel art style, and sound
-                    effects were edited in Audacity. The demo version of the game is completed and represents my take on
-                    classic escape room mechanics within a 2D environment.</p>
-                  <div style="text-align:center; margin-top:10px;">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="portfolio-slide">
-              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
-                  src="https://www.youtube.com/embed/r1uhyLyiDx4?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
-                <div class="skills-grid">
-                  <div class="skill-box">Unity</div>
-                  <div class="skill-box">Photoshop</div>
-                  <div class="skill-box">Maya</div>
-                  <div class="skill-box">Audacity</div>
-                  <div class="skill-box">Story Design</div>
-                </div>
-              </div>
-              <div class="portfolio-text">
-                <h3 class="project-name">Exit</h3>
-                <div class="portfolio-description">
-                  <p>Exit is a top-down RPG demo in which the player takes on the role of Petar Venčić – a man who,
-                    after clinical death, wakes up buried in his own grave and manages to dig himself out. He doesn’t
-                    know how he survived, but he knows he must find a way out of the eerie cemetery. As he wanders
-                    through the graveyard, he soon realizes he is not alone – a group of cultists is there to perform a
-                    ritual, and Petar becomes their target.<br /><br />In order to survive and escape, Petar finds an
-                    improvised weapon and begins searching for the key that unlocks the cemetery gate. His path leads
-                    him to a chapel, where he faces the most dangerous confrontation with those who want him
-                    dead.<br /><br />The game features an intro sequence made up of images I drew, accompanied by
-                    typewriter-style text, creating an atmospheric introduction to the story and hinting at the
-                    mysterious background of the events.<br /><br />Exit was created as part of a university course,
-                    using Unity, Photoshop, Maya, and Audacity.</p>
-                  <div style="text-align:center; margin-top:10px;">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="portfolio-slide">
-              <div class="left-content"><iframe allowfullscreen="" class="responsive-video"
-                  src="https://www.youtube.com/embed/sx8Vl0dXy60?controls=1&amp;modestbranding=1&amp;rel=0&amp;autoplay=1&amp;mute=1"></iframe>
-                <div class="skills-grid">
-                  <div class="skill-box">Unity</div>
-                  <div class="skill-box">AI Logic</div>
-                  <div class="skill-box">Tower Defense</div>
-                  <div class="skill-box">Photoshop</div>
-                  <div class="skill-box">Maya</div>
-                  <div class="skill-box">Audacity</div>
-                </div>
-              </div>
-              <div class="portfolio-text">
-                <h3 class="project-name">Moon Defense - The Zarax Menace</h3>
-                <div class="portfolio-description">
-                  <p>Moon Defense - The Zarax Menace is a 3D tower defense strategy set in the year 2300 on the Moon,
-                    where the player takes on the role of a commander tasked with defending Luna Link, the main
-                    communication tower between the Moon and Earth. Players must use their strategic skills to defend
-                    the tower from mysterious alien ships known as Zarax.<br /><br />Enemies emerge from tunnels and
-                    move using the A* algorithm, making each wave increasingly challenging. As the rounds progress, more
-                    enemies appear, and an additional challenge comes from the UFO, which randomly spawns new enemies at
-                    different points along the path.<br /><br />Since the game was developed for a university project,
-                    the focus was on allowing the player to interact with the environment (placing, removing, and
-                    upgrading objects...). In addition to these and basic mechanics, artificial intelligence elements
-                    were implemented, including the A* algorithm for enemy navigation, state machine systems for their
-                    behavior, and additional AI logic that adds complexity and dynamism to the game.<br /><br />The game
-                    was developed using Unity, Maya, Photoshop, and Audacity.</p>
-                  <div style="text-align:center; margin-top:10px;">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button class="slider-arrow right" onclick="moveSlide('game-slider', 1)">❯</button>
+
+    <!-- 3D ART CARDS -->
+    <div id="panel-3d_art" style="display:none">
+      <div class="cards-grid">
+        <div class="project-card" onclick="openProject('3d_art','robot')">
+          <img src="render_1.png"
+               onerror="this.style.background='#ddd';this.removeAttribute('src')"
+               alt="Robot Character" />
+          <div class="card-label">Robot Character</div>
         </div>
-      </div><button class="slider-arrow right" onclick="moveSlide('game-slider', 1)">❯</button>
-    </div>
-  </section>
-  <section class="fade-in-section" id="contact" style="padding: 4rem 1rem; max-width: 1000px; margin: auto;">
-    <h2
-      style="font-size: 2.6rem;font-weight: 900;text-align: left;margin-bottom: 1.5rem;text-transform: uppercase;color: #222;position: relative;padding-bottom: 0.5rem;letter-spacing: 0.5px;">
-      Contact</h2>
-    <div
-      style="background: #f9f9f9; padding: 2rem; border-left: 5px solid #424242; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-      <form onsubmit="return sendEmail();">
-        <input id="name" placeholder="Your Name" required="" type="text" />
-        <input id="email" placeholder="Your Email" required="" type="email">
-        <textarea id="message" placeholder="Your Message" required="" rows="5"></textarea>
-        <button type="submit">Send Email</button>
-        </input>
-      </form>
-    </div>
-  </section>
-  <script>
-    function sendEmail() {
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const message = document.getElementById("message").value.trim();
+        <div class="project-card" onclick="openProject('3d_art','unforgotten3d')">
+          <img src="render_m5_n2.jpg" alt="(Un)Forgotten Concrete 3D" />
+          <div class="card-label">(Un)Forgotten Concrete</div>
+        </div>
+        <div class="project-card" onclick="openProject('3d_art','serbian')">
+          <img src="srb_render_1.jpg"
+               onerror="this.style.background='#ddd';this.removeAttribute('src')"
+               alt="Serbian Pavilion" />
+          <div class="card-label">Serbian Pavilion – Venice</div>
+        </div>
+        <div class="project-card" onclick="openProject('3d_art','ika')">
+          <img src="ika.png" alt="Ika" />
+          <div class="card-label">Ika</div>
+        </div>
+      </div>
 
-      const subject = encodeURIComponent("New Message from " + name);
-      const body = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-      );
-
-      const mailtoLink = `mailto:nveinovic02@gmail.com?subject=${subject}&body=${body}`;
-
-      window.location.href = mailtoLink;
-      return false; // Prevent actual form submission
-    }
-  </script>
-  <footer>
-    © 2025 Nikola Veinović. All rights reserved.
-  </footer>
-  <div class="modal" id="readMoreModal"
-    style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.6);">
-    <div class="modal-content"
-      style="background-color:#fff; margin:10% auto; padding:20px; border:1px solid #888; width:80%; max-width:700px; border-radius:8px;">
-      <span class="close" onclick="document.getElementById('readMoreModal').style.display='none'"
-        style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">×</span>
-      <div id="modal-text" style="margin-top:20px; white-space:pre-line;"></div>
+      <!-- DETAIL PANE — 3D ART -->
+      <div class="project-detail" id="detail-3d_art">
+        <div class="detail-media" id="detail-3d_art-media"></div>
+        <div class="detail-info" id="detail-3d_art-info">
+          
+          <h3 id="detail-3d_art-title"></h3>
+          <div class="skills-grid" id="detail-3d_art-skills"></div>
+          <p id="detail-3d_art-desc"></p>
+        </div>
+      </div>
     </div>
   </div>
-  <script>
-    function showModal(text) {
-      document.getElementById('modal-text').innerText = text;
-      document.getElementById('readMoreModal').style.display = 'block';
-    }
-  </script>
-  <script>
-    function toggleReadMore(button) {
-      const span = button.previousElementSibling;
-      if (span.style.display === "none" || span.style.display === "") {
-        span.style.display = "inline";
-        button.textContent = "Read less";
-      } else {
-        span.style.display = "none";
-        button.textContent = "Read more";
-      }
-    }
-  </script>
-  <script>
-    function toggleReadMore(button) {
-      const span = button.parentElement.previousElementSibling.querySelector('.more-text');
-      if (span.style.display === "none" || span.style.display === "") {
-        span.style.display = "inline";
-        button.textContent = "Read less";
-      } else {
-        span.style.display = "none";
-        button.textContent = "Read more";
-      }
-    }
-  </script>
-  <script>
-    const canvas = document.createElement("canvas");
-    canvas.id = "backgroundCanvas";
-    document.body.insertBefore(canvas, document.body.firstChild);
-    const ctx = canvas.getContext("2d");
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
 
-    const lines = Array.from({ length: 60 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      length: 80 + Math.random() * 60,
-      angle: Math.random() * Math.PI * 2,
-      speed: 0.5 + Math.random()
-    }));
+  <!-- CONTACT -->
+  <div id="contact" class="fade-in-section" style="max-width:1200px; margin:0 auto; padding:4rem 3rem;">
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-box">
+      <form onsubmit="return sendEmail()">
+        <input name="name" id="name" type="text" placeholder="Your Name" required />
+        <input name="email" id="email" type="email" placeholder="Your Email" required />
+        <textarea name="message" id="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Email</button>
+      </form>
+    </div>
+  </div>
 
-    let mouse = { x: width / 2, y: height / 2 };
+  <footer>© 2026 Made by Vulax</footer>
 
-    window.addEventListener("mousemove", e => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+  <script>
+  // ── DARK MODE ──
+  function toggleDark(el) {
+    document.body.classList.toggle('dark-mode', el.checked);
+    localStorage.setItem('dark-mode', el.checked);
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const dm = localStorage.getItem('dark-mode') === 'true';
+    if (dm) { document.body.classList.add('dark-mode'); document.getElementById('darkSwitch').checked = true; }
+  });
+
+  // ── TAB SWITCH ──
+  function switchTab(tab) {
+    // Stop any playing iframes in the panel being hidden
+    const hiddenPanel = tab === 'games' ? '3d_art' : 'games';
+    document.querySelectorAll(`#panel-${hiddenPanel} iframe`).forEach(f => {
+      const src = f.src; f.src = ''; f.src = src;
     });
+    document.getElementById('panel-games').style.display  = tab === 'games' ? '' : 'none';
+    document.getElementById('panel-3d_art').style.display = tab === '3d_art' ? '' : 'none';
+    document.getElementById('tab-games').classList.toggle('active', tab === 'games');
+    document.getElementById('tab-3d_art').classList.toggle('active', tab === '3d_art');
+  }
 
+  
+// ── PARALLAX SLIDER ──
+function slider(images) {
+  const id = 'slider_' + Math.random().toString(36).substring(2, 9);
+  return `
+    <div class="parallax-canvas-wrap" id="${id}" data-images='${JSON.stringify(images)}' data-current="0">
+      <canvas id="${id}_canvas"></canvas>
+      <div class="parallax-cursor" id="${id}_cursor"></div>
+      <div class="slider-counter" id="${id}_counter">1 / ${images.length}</div>
+      <button class="slider-btn slider-prev" onclick="parallaxSlide('${id}',-1)">❮</button>
+      <button class="slider-btn slider-next" onclick="parallaxSlide('${id}',1)">❯</button>
+    </div>
+  `;
+}
 
+const _parallaxInstances = {};
 
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const isDark = document.body.classList.contains("dark-mode");
-      ctx.lineWidth = 1.2;
-      ctx.strokeStyle = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+function parallaxSlide(id, dir) {
+  const wrap = document.getElementById(id);
+  if (!wrap) return;
+  const images = JSON.parse(wrap.dataset.images);
+  let cur = parseInt(wrap.dataset.current) || 0;
+  cur = (cur + dir + images.length) % images.length;
+  wrap.dataset.current = cur;
+  const counter = document.getElementById(id + '_counter');
+  if (counter) counter.textContent = (cur + 1) + ' / ' + images.length;
+  const inst = _parallaxInstances[id];
+  if (inst) inst.loadImage(images[cur]);
+}
 
-      const lineCount = 10;
-      const pointCount = 60;
-      const waveHeight = 20;
-      const waveSpeed = 0.002;
+// ── FULLSCREEN LIGHTBOX ──
+(function(){
+  const overlay = document.createElement('div');
+  overlay.id = 'fs-overlay';
+  Object.assign(overlay.style, {
+    display:'none', position:'fixed', inset:'0', zIndex:'9999',
+    background:'rgba(0,0,0,0.92)', alignItems:'center', justifyContent:'center',
+    cursor:'zoom-out'
+  });
+  const fsImg = document.createElement('img');
+  Object.assign(fsImg.style, {
+    maxWidth:'94vw', maxHeight:'94vh', objectFit:'contain',
+    borderRadius:'6px', boxShadow:'0 8px 48px rgba(0,0,0,0.7)',
+    pointerEvents:'none', userSelect:'none'
+  });
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '✕';
+  Object.assign(closeBtn.style, {
+    position:'absolute', top:'18px', right:'22px',
+    background:'rgba(255,255,255,0.12)', border:'none', color:'#fff',
+    fontSize:'1.4rem', width:'44px', height:'44px', borderRadius:'50%',
+    cursor:'pointer', backdropFilter:'blur(8px)'
+  });
+  overlay.appendChild(fsImg);
+  overlay.appendChild(closeBtn);
+  document.body.appendChild(overlay);
 
-      for (let i = 0; i < lineCount; i++) {
-        const baseY = (canvas.height / (lineCount + 1)) * (i + 1);
-        ctx.beginPath();
+  function closeFs(){ overlay.style.display='none'; document.body.style.overflow=''; }
+  overlay.addEventListener('click', closeFs);
+  closeBtn.addEventListener('click', closeFs);
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeFs(); });
 
-        for (let j = 0; j < pointCount; j++) {
-          const x = (canvas.width - 1) * j / (pointCount - 1);
-          const y = baseY + Math.sin(t * waveSpeed + j * 0.3 + i) * waveHeight + Math.sin((cursor.y - 0.5) * Math.PI) * 100;
-          if (j === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
-        }
+  window.openFullscreen = function(src){
+    fsImg.src = src;
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+})();
 
-        ctx.stroke();
-      }
+function initParallax(id) {
+  const wrap = document.getElementById(id);
+  if (!wrap) return;
 
-      t++;
-      requestAnimationFrame(draw);
-    }
+  // ── DESTROY old instance if one exists (fixes zombie RAF loops) ──
+  if (_parallaxInstances[id]) {
+    _parallaxInstances[id].destroy();
+    delete _parallaxInstances[id];
+  }
 
+  const canvas = document.getElementById(id + '_canvas');
+  const cursor = document.getElementById(id + '_cursor');
+  const images = JSON.parse(wrap.dataset.images);
+  const ctx = canvas.getContext('2d');
 
+  let W = 0, H = 0;
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+  let currentImg = null;
+  let nextImg = null;
+  let fade = 1;
+  let rafId = null;
+  let alive = true;           // ← flag to kill the loop on destroy
+  const PARALLAX_STR = 12;
+  const ZOOM = 1.00;
 
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    W = wrap.clientWidth;
+    H = wrap.clientHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
     draw();
+  }
 
-    window.addEventListener("resize", () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-  </script>
-  <script>
-    const cursor = document.createElement("div");
-    cursor.id = "customCursor";
-    cursor.className = "cursor";
-    document.body.appendChild(cursor);
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
 
-    document.addEventListener("mousemove", e => {
-      cursor.style.left = e.clientX + "px";
-      cursor.style.top = e.clientY + "px";
-    });
-
-    document.querySelectorAll("a, button").forEach(el => {
-      el.addEventListener("mouseenter", () => cursor.classList.add("hover"));
-      el.addEventListener("mouseleave", () => cursor.classList.remove("hover"));
-    });
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const canvas = document.getElementById("backgroundCanvas");
-      const ctx = canvas.getContext("2d");
-      let width = canvas.width = window.innerWidth;
-      let height = canvas.height = window.innerHeight;
-
-      const lineCount = 12;
-      const pointCount = 20;
-      const lines = [];
-
-      // Kreiramo linije sa tačkama koje će se organski pomerati
-      for (let i = 0; i < lineCount; i++) {
-        const y = (height / (lineCount + 1)) * (i + 1);
-        const points = [];
-        for (let j = 0; j < pointCount; j++) {
-          const x = (canvas.width - 1) * j / (pointCount - 1);
-          points.push({
-            x: x,
-            y: y + Math.random() * 40 - 20,
-            baseY: y,
-            offset: Math.random() * 1000,
-          });
-        }
-        lines.push(points);
+    function drawImg(img, alpha) {
+      if (!img || !img.complete || !img.naturalWidth) return;
+      ctx.globalAlpha = alpha;
+      const imgAR = img.naturalWidth / img.naturalHeight;
+      const canvasAR = W / H;
+      let drawW, drawH;
+      if (imgAR > canvasAR) {
+        drawH = H * ZOOM; drawW = drawH * imgAR;
+      } else {
+        drawW = W * ZOOM; drawH = drawW / imgAR;
       }
+      const maxShiftX = (drawW - W) / 4;
+      const maxShiftY = (drawH - H) / 4;
+      const shiftX = Math.max(-maxShiftX, Math.min(maxShiftX, currentX * PARALLAX_STR));
+      const shiftY = Math.max(-maxShiftY, Math.min(maxShiftY, currentY * PARALLAX_STR));
+      ctx.drawImage(img, (W - drawW) / 2 + shiftX, (H - drawH) / 2 + shiftY, drawW, drawH);
+      ctx.globalAlpha = 1;
+    }
 
-      let t = 0;
-      let cursor = { x: 0.5, y: 0.5 };
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const isDark = document.body.classList.contains("dark-mode");
-        ctx.lineWidth = 1.2;
-        ctx.strokeStyle = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.07)";
+    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg').trim() || '#111';
+    ctx.fillRect(0, 0, W, H);
 
-        const lineCount = 10;
-        const pointCount = 60;
-        const waveHeight = 20;
-        const waveSpeed = 0.002;
+    if (nextImg && fade < 1) {
+      drawImg(currentImg, 1);
+      drawImg(nextImg, fade);
+    } else {
+      drawImg(currentImg, 1);
+    }
+  }
 
-        for (let i = 0; i < lineCount; i++) {
-          const baseY = (canvas.height / (lineCount + 1)) * (i + 1);
-          ctx.beginPath();
+  function animate() {
+    if (!alive) return;          // ← stops the loop when destroyed
+    rafId = requestAnimationFrame(animate);
+    const ease = 0.07;
+    currentX += (targetX - currentX) * ease;
+    currentY += (targetY - currentY) * ease;
+    if (nextImg && fade < 1) {
+      fade = Math.min(1, fade + 0.06);
+      if (fade >= 1) { currentImg = nextImg; nextImg = null; }
+    }
+    draw();
+  }
 
-          for (let j = 0; j < pointCount; j++) {
-            const x = (canvas.width - 1) * j / (pointCount - 1);
-            const y = baseY + Math.sin(t * waveSpeed + j * 0.3 + i) * waveHeight + Math.sin((cursor.y - 0.5) * Math.PI) * 100;
-            if (j === 0) {
-              ctx.moveTo(x, y);
-            } else {
-              ctx.lineTo(x, y);
-            }
-          }
+  function loadImage(src) {
+    const img = new Image();
+    img.onload = () => {
+      if (!currentImg) { currentImg = img; fade = 1; }
+      else { nextImg = img; fade = 0; }
+    };
+    img.src = src;
+  }
 
-          ctx.stroke();
-        }
+  // ── Fullscreen on canvas click ──
+  canvas.style.cursor = 'zoom-in';
+  canvas.addEventListener('click', () => {
+    const src = currentImg && currentImg.src;
+    if (src) openFullscreen(src);
+  });
 
-        t++;
-        requestAnimationFrame(draw);
+  const onMouseMove = (e) => {
+    const r = wrap.getBoundingClientRect();
+    targetX = (e.clientX - r.left) / r.width  - 0.5;
+    targetY = (e.clientY - r.top)  / r.height - 0.5;
+    if (cursor) {
+      cursor.style.left = (e.clientX - r.left) + 'px';
+      cursor.style.top  = (e.clientY - r.top)  + 'px';
+      cursor.style.opacity = '1';
+    }
+  };
+  const onMouseLeave = () => {
+    targetX = 0; targetY = 0;
+    if (cursor) cursor.style.opacity = '0';
+  };
+
+  wrap.addEventListener('mousemove', onMouseMove);
+  wrap.addEventListener('mouseleave', onMouseLeave);
+
+  const ro = new ResizeObserver(resize);
+  ro.observe(wrap);
+  resize();
+  loadImage(images[0]);
+  animate();
+
+  // ── Fullscreen button ──
+  const fsBtn = document.createElement('button');
+  fsBtn.innerHTML = '⛶';
+  fsBtn.title = 'Fullscreen';
+  Object.assign(fsBtn.style, {
+    position:'absolute', bottom:'44px', right:'10px',
+    width:'36px', height:'36px', border:'none', borderRadius:'50%',
+    background:'rgba(0,0,0,0.6)', color:'#fff', cursor:'pointer',
+    fontSize:'16px', zIndex:'15', backdropFilter:'blur(4px)'
+  });
+  fsBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const src = currentImg && currentImg.src;
+    if (src) openFullscreen(src);
+  });
+  wrap.appendChild(fsBtn);
+
+  _parallaxInstances[id] = {
+    loadImage,
+    destroy() {
+      alive = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      ro.disconnect();
+      wrap.removeEventListener('mousemove', onMouseMove);
+      wrap.removeEventListener('mouseleave', onMouseLeave);
+    }
+  };
+}
+
+
+
+  // ── PROJECT DATA ──
+  const projects = {
+    games: {
+      unforgotten: {
+        title: '(Un)Forgotten Concrete',
+        skills: ['Unity', 'VR', 'Maya', 'Photoshop', 'Audacity', 'Meta Quest 3'],
+        software: ['Unity', 'Maya', 'Photoshop', 'Audacity'],
+        desc: `<p>(Un)Forgotten Concrete is not a traditional video game — it is a VR experience created for the exhibition <em>"Today Is The Day When No One Brought the Ball…"</em> by artist Predrag Terzić. The entire project was developed based on the exhibition author's concept, script, and artistic vision, with the goal of providing visitors with a unique virtual reality experience.</p><p>In the experience, users freely move through and explore a VR environment while different basketball courts and musical pieces transition around them. Basketball-inspired phrases and messages appear throughout, while the changing environments and spatial dynamics serve as key elements of artistic expression.</p><p>The project was developed using the Unity game engine for the Meta Quest 3 headset. Basketball court models were created in Maya, textures produced in Photoshop, and audio edited using Audacity.</p><p>This project represented my first significant publicly exhibited work. Visitors had the opportunity to use a VR headset and experience the project firsthand, providing valuable experience in developing for a real audience and collaborating on an official artistic installation.</p>`,
+        media: `<iframe src="https://www.youtube.com/embed/NwU8sfAT6MI?controls=1&modestbranding=1&rel=0&autoplay=1&mute=0" allowfullscreen></iframe>`
+      },
+      moondefense: {
+        title: 'Moon Defense – The Zarax Menace',
+        skills: ['Unity', 'AI Logic', 'Tower Defense', 'Photoshop', 'Maya', 'Audacity'],
+        software: ['Unity', 'Maya', 'Photoshop', 'Audacity'],
+        desc: `<p>Moon Defense is a 3D tower defense strategy set in the year 2300 on the Moon, where the player defends Luna Link, the main communication tower between the Moon and Earth, from mysterious alien ships known as Zarax.</p><p>Enemies move using the A* algorithm, and a UFO randomly spawns new enemies at different points. The game implements A* pathfinding, state machine behavior, and advanced AI logic. Developed using Unity, Maya, Photoshop, and Audacity.</p>`,
+        media: `<iframe src="https://www.youtube.com/embed/sx8Vl0dXy60?controls=1&modestbranding=1&rel=0&autoplay=1&mute=1" allowfullscreen></iframe>`
+      },
+      exit: {
+        title: 'Exit',
+        skills: ['Unity', 'Photoshop', 'Maya', 'Audacity', 'Story Design'],
+        software: ['Unity', 'Maya', 'Photoshop', 'Audacity'],
+        desc: `<p>Exit is a top-down RPG demo in which the player takes on the role of Petar Venčić – a man who, after clinical death, wakes up buried in his own grave. He doesn't know how he survived, but he knows he must find a way out of the eerie cemetery.</p><p>The game features an intro sequence made up of hand-drawn images accompanied by typewriter-style text. Developed using Unity, Photoshop, Maya, and Audacity.</p>`,
+        media: `<iframe src="https://www.youtube.com/embed/r1uhyLyiDx4?controls=1&modestbranding=1&rel=0&autoplay=1&mute=1" allowfullscreen></iframe>`
+      },
+      wayout: {
+        title: 'Way Out',
+        skills: ['OpenGL', 'C++', 'Puzzle Design', 'Photoshop', 'Audacity'],
+        software: ['OpenGL', 'Photoshop', 'Audacity'],
+        desc: `<p>Way Out is a 2D pixel art puzzle game with escape room elements, developed using OpenGL. The game consists of three levels where the player solves logical puzzles — moving books, chess pieces, and interpreting hidden messages — to find keys and escape.</p><p>All visual assets were created in Photoshop, and sound effects were edited in Audacity.</p>`,
+        media: `<iframe src="https://www.youtube.com/embed/fEhewogkyfs?controls=1&modestbranding=1&rel=0&autoplay=1&mute=1" allowfullscreen></iframe>`
+      },
+      mars: {
+        title: 'Mars Escape',
+        skills: ['Unity', 'Bolt', 'Photoshop', 'Audacity', 'Pixel Art', 'Level Design'],
+        software: ['Unity', 'Photoshop', 'Audacity'],
+        desc: `<p>Mars Escape was my first contact with game development – a 2D platformer created as a demo project for the Introduction to Video Games course at university. The player explores the surface of Mars, collecting coins and avoiding aliens that patrol the platforms.</p><p>The game was developed in Unity using the Bolt visual scripting tool. All visual assets were created in Photoshop with a pixel art style, and sound effects were edited in Audacity. Mars Escape gave me a solid introduction to the game development process.</p>`,
+        media: `<iframe src="https://www.youtube.com/embed/EQ4SlKFYTSM?controls=1&modestbranding=1&rel=0&autoplay=1&mute=1" allowfullscreen></iframe>`
       }
+    },
+    '3d_art': {
+      robot: {
+        title: 'Robot Character',
+        skills: ['Maya', 'Hard Surface', 'Topology', 'Game-Ready', 'UV Mapping'],
+        software: ['Maya'],
+        desc: `<p>This project involved the creation of a 3D robot model developed as a game-ready asset, featuring optimized geometry and a workflow suitable for use in real-time environments such as video games.</p><p>The model was created in Maya. I worked on geometry organization and optimization to ensure the asset was suitable for further production stages including texturing, rigging, and animation. Particular attention was given to maintaining clean topology and proper edge flow.</p><p>I also plan to release a trailer soon, showcasing a set of animations created for this character.</p>`,
+        media: slider([
+  'render_1.png',
+  'render_2.png',
+  'render_3.png',
+  'render_4.png'
+        ])
+      },
+      unforgotten3d: {
+        title: '(Un)Forgotten Concrete',
+        skills: ['Maya', 'UV Mapping', 'Photoshop', 'Unity', 'Optimization'],
+        software: ['Maya', 'Photoshop'],
+        desc: `<p>For the VR project (Un)Forgotten Concrete, I created all of the basketball court models. The models were built in Maya based on the artist's visual concept and guidelines, with a strong focus on optimization for the Meta Quest 3 platform.</p><p>In addition to modeling, I was responsible for UV mapping and texturing, ensuring that each court had a distinctive visual identity contributing to the overall atmosphere. The models were integrated into Unity as key environmental elements through which the user navigates and explores.</p>`,
+        media: slider([
+  'render_m1_n2.jpg','render_m4_n2.jpg','render_m2_n1.jpg','render_m5_n2.jpg',
+  'render_m3_n1.jpg','render_m8_n1.jpg','render_m7_n2.jpg','render_m6_n1.jpg',
+  'render_m9_n2.jpg'
+])
+      },
+      serbian: {
+        title: 'Serbian Pavilion – Venice',
+        skills: ['Maya', 'UV Mapping', 'Photoshop', 'Architectural Modeling'],
+        software: ['Maya', 'Photoshop'],
+        desc: `<p>For a project application for the Venice Biennale, I created a detailed 3D model of the Serbian Pavilion in Venice based on architectural plans provided by the artist. The model was created in Maya, with particular attention given to accurate proportions.</p><p>In addition to modeling, I was responsible for UV mapping and texturing in Photoshop. The pavilion was modeled with a complete interior — not as a solid geometric structure — allowing for realistic representation of the interior space and greater flexibility for future visualizations and presentations.</p>`,
+        media: slider([
+  'srb_render_1.jpg',
+  'srb_render_3.jpg',
+  'srb_render_4.jpg',
+  'srb_render_2.jpg'
+])
+      },
+      ika: {
+        title: 'Ika',
+        skills: ['Maya', 'Animation', '3D Modeling', 'Rendering', 'Storyboarding'],
+        software: ['Maya'],
+        desc: `<p>This animation was created as part of a university project and represents my first major work in 3D animation. It follows a scientist named Ika, who is excited about a portal he has built. He rides his hoverboard around the dining table, waves, then heads through the hallway into the garage, where he accidentally falls over the railing.</p><p>The animation was originally imagined as a backstory for a game I was planning to develop. While working on it, I discovered how passionate I am about animation. I created the entire project myself — from modeling and environment design to animation and rendering.</p>`,
+        media: `<iframe src="https://www.youtube.com/embed/gxtalk2ru8c?controls=1&modestbranding=1&rel=0&autoplay=1&mute=1" allowfullscreen></iframe>`
+      }
+    }
+  };
 
+  let currentOpen = { games: null, '3d_art': null };
 
+  function openProject(panel, key) {
+    const data = projects[panel][key];
+    if (!data) return;
 
-      draw();
+    // Highlight card
+    document.querySelectorAll(`#panel-${panel} .project-card`).forEach(c => c.classList.remove('selected'));
+    event.currentTarget.classList.add('selected');
 
-      window.addEventListener("resize", () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      });
-    });
+    // Populate
+    document.getElementById(`detail-${panel}-title`).textContent = data.title;
+    document.getElementById(`detail-${panel}-desc`).innerHTML = data.desc;
 
-    document.getElementById('modeling-slider-btn')
-  .addEventListener('click', () => {
-    document.querySelectorAll('.slider-arrow')
-            .forEach(el => el.style.display = 'none');
+    const skillsEl = document.getElementById(`detail-${panel}-skills`);
+    skillsEl.innerHTML = data.skills.map(s => `<span class="skill-box">${s}</span>`).join('');
+
+    document.getElementById(`detail-${panel}-media`).innerHTML = `<button class="close-floating" onclick="closeDetail('${panel}')">✕</button>` + data.media;
+
+    // Init canvas parallax if slider was injected
+    setTimeout(() => {
+      const wrap = document.querySelector(`#detail-${panel}-media .parallax-canvas-wrap`);
+      if (wrap) initParallax(wrap.id);
+    }, 30);
+
+    // Software used
+    let swEl = document.getElementById(`detail-${panel}-software`);
+    if (!swEl) {
+      swEl = document.createElement('div');
+      swEl.id = `detail-${panel}-software`;
+      swEl.className = 'software-used';
+      const detailInfo = document.getElementById(`detail-${panel}-info`);
+      detailInfo.appendChild(swEl);
+    }
+    if (data.software && data.software.length) {
+      swEl.innerHTML = '<span class="sw-label">Made with</span>' + data.software.map(s => `<span class="sw-tag">${s}</span>`).join('');
+      swEl.style.display = '';
+    } else {
+      swEl.style.display = 'none';
+    }
+
+    const detailEl = document.getElementById(`detail-${panel}`);
+    detailEl.classList.add('visible');
+
+    currentOpen[panel] = key;
+
+    // Smooth scroll to detail
+    setTimeout(() => detailEl.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+  }
+
+  function closeDetail(panel) {
+    const detailEl = document.getElementById(`detail-${panel}`);
+    detailEl.classList.remove('visible');
+    const mediaEl = document.getElementById(`detail-${panel}-media`);
+    const wrap = mediaEl.querySelector('.parallax-canvas-wrap');
+    if (wrap && _parallaxInstances[wrap.id]) {
+      _parallaxInstances[wrap.id].destroy();   // cancels RAF + removes listeners
+      delete _parallaxInstances[wrap.id];
+    }
+    mediaEl.innerHTML = '';
+    document.querySelectorAll(`#panel-${panel} .project-card`).forEach(c => c.classList.remove('selected'));
+    currentOpen[panel] = null;
+  }
+
+  // ── CONTACT ──
+  function sendEmail() {
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const subject = encodeURIComponent('New Message from ' + name);
+    const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    window.location.href = `mailto:nveinovic02@gmail.com?subject=${subject}&body=${body}`;
+    return false;
+  }
+
+  // ── FADE IN ──
+  document.addEventListener('DOMContentLoaded', () => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
   });
   </script>
 </body>
-
 </html>
